@@ -39,3 +39,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Local dev data store (duty rosters, tickets)
+.data
+
+# Local database (PGlite) and env
+.data
+.env.local
+.env*.local
