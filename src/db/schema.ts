@@ -58,6 +58,14 @@ export const users = pgTable(
     name: text("name").notNull(),
     role: roleEnum("role").notNull().default("student"),
     passwordHash: text("password_hash").notNull(),
+    /**
+     * When this student asked for coordinator access. Null means they haven't,
+     * or a coordinator has already answered. A timestamp rather than a boolean
+     * so the admin list can show who has been waiting longest.
+     */
+    coordinatorRequestedAt: timestamp("coordinator_requested_at", {
+      withTimezone: true,
+    }),
     createdAt,
   },
   (table) => [uniqueIndex("users_email_idx").on(table.email)],

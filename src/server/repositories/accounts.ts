@@ -1,10 +1,10 @@
 import "server-only";
 
-import { and, eq, gt, lt } from "drizzle-orm";
+import { and, desc, eq, gt, lt, sql } from "drizzle-orm";
 
 import { getDb } from "@/db";
 import { authSessions, users } from "@/db/schema";
-import type { Role, User } from "@/lib/types";
+import type { AccountSummary, Role, User } from "@/lib/types";
 import { newId } from "@/server/ids";
 
 const toUser = (row: typeof users.$inferSelect): User => ({
@@ -75,15 +75,87 @@ export async function createUser(input: {
     : { ok: false, reason: "email-taken" };
 }
 
-export async function setUserRole(userId: string, role: Role) {
-  const db = await getDb();
-  await db.update(users).set({ role }).where(eq(users.id, userId));
-}
-
 export async function listUsers(): Promise<User[]> {
   const db = await getDb();
   const rows = await db.select().from(users).orderBy(users.createdAt);
   return rows.map(toUser);
+}
+
+/** Admin roster: pending access requests first, then newest accounts. */
+export async function listAccounts(): Promise<AccountSummary[]> {
+  const db = await getDb();
+
+  const rows = await db
+    .select()
+    .from(users)
+    .orderBy(
+      // Nulls last, so anyone waiting on an answer floats to the top.
+      sql`${users.coordinatorRequestedAt} asc nulls last`,
+      desc(users.createdAt),
+    );
+
+  return rows.map((row) => ({
+    ...toUser(row),
+    createdAt: row.createdAt.toISOString(),
+    requestedAt: row.coordinatorRequestedAt?.toISOString() ?? null,
+  }));
+}
+
+export async function countCoordinators(): Promise<number> {
+  const db = await getDb();
+  const rows = await db
+    .select({ id: users.id })
+    .from(users)
+    .where(eq(users.role, "coordinator"));
+  return rows.length;
+}
+
+/**
+ * Changes a role and clears any outstanding request in the same statement —
+ * granting access and leaving the request pending would keep the person on the
+ * admin's to-do list forever.
+ */
+export async function setUserRole(userId: string, role: Role) {
+  const db = await getDb();
+  await db
+    .update(users)
+    .set({ role, coordinatorRequestedAt: null })
+    .where(eq(users.id, userId));
+}
+
+/** A student asking for coordinator access. Idempotent: re-asking is a no-op. */
+export async function requestCoordinatorAccess(userId: string) {
+  const db = await getDb();
+  await db
+    .update(users)
+    .set({ coordinatorRequestedAt: new Date() })
+    .where(
+      and(
+        eq(users.id, userId),
+        eq(users.role, "student"),
+        // Keeps the original timestamp so "waiting longest" stays honest.
+        sql`${users.coordinatorRequestedAt} is null`,
+      ),
+    );
+}
+
+/** Turns a request down without granting anything. */
+export async function dismissCoordinatorRequest(userId: string) {
+  const db = await getDb();
+  await db
+    .update(users)
+    .set({ coordinatorRequestedAt: null })
+    .where(eq(users.id, userId));
+}
+
+export async function hasPendingRequest(userId: string): Promise<boolean> {
+  const db = await getDb();
+  const [row] = await db
+    .select({ at: users.coordinatorRequestedAt })
+    .from(users)
+    .where(eq(users.id, userId))
+    .limit(1);
+  return Boolean(row?.at);
 }
 
 /* --- Login sessions ------------------------------------------------------ */

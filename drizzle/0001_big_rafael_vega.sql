@@ -1,0 +1,1 @@
+ALTER TABLE "users" ADD COLUMN "coordinator_requested_at" timestamp with time zone;

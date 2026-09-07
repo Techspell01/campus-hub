@@ -41,8 +41,17 @@ Both have a permanent free tier and neither asks for a card.
 
 ### 1. Create the database
 
-Sign up at [neon.com](https://neon.com), create a project, and copy the
-**pooled** connection string (the one with `-pooler` in the host).
+Sign up at [neon.com](https://neon.com) and create a project. On the project
+dashboard click **Connect**, leave **Connection pooling** on, and copy the
+string — the host ends in `-pooler`.
+
+Use the pooled string for `DATABASE_URL`: serverless functions open a
+connection per invocation, and the pooler is what stops that exhausting
+Postgres' connection limit.
+
+If a migration ever fails oddly, re-run it with the **direct** string (toggle
+connection pooling off to reveal it). Neon's pooler runs in transaction mode,
+which doesn't keep session state that some DDL tools expect.
 
 ### 2. Push to GitHub, then import into Vercel
 

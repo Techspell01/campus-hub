@@ -24,6 +24,13 @@ export interface User {
   role: Role;
 }
 
+/** An account as shown in the admin people list. */
+export interface AccountSummary extends User {
+  createdAt: string;
+  /** When they asked for coordinator access; null if they haven't. */
+  requestedAt: string | null;
+}
+
 /** Sub-coordinator duty buckets used across the directory and roster. */
 export const DUTY_AREAS = [
   "Stage Management",

@@ -9,6 +9,7 @@ const TABS = [
   { href: "/admin/clubs", label: "Clubs" },
   { href: "/admin/coordinators", label: "Coordinators" },
   { href: "/admin/announcements", label: "Announcements" },
+  { href: "/admin/people", label: "People" },
 ];
 
 export const dynamic = "force-dynamic";

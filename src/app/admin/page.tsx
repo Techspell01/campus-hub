@@ -11,7 +11,7 @@ import { GlassCard } from "@/components/ui/GlassCard";
 import { listAllAnnouncements, listClubs } from "@/server/repositories/content";
 import { listEvents } from "@/server/repositories/events";
 import { ticketCounts } from "@/server/repositories/tickets";
-import { listUsers } from "@/server/repositories/accounts";
+import { listAccounts } from "@/server/repositories/accounts";
 
 export const metadata: Metadata = { title: "Admin" };
 
@@ -21,10 +21,13 @@ export default async function AdminOverviewPage() {
     listClubs(),
     listAllAnnouncements(),
     ticketCounts(),
-    listUsers(),
+    listAccounts(),
   ]);
 
   const published = events.filter((event) => event.published).length;
+  const pendingRequests = users.filter(
+    (account) => account.requestedAt !== null && account.role === "student",
+  ).length;
 
   const cards = [
     {
@@ -51,6 +54,15 @@ export default async function AdminOverviewPage() {
       icon: Megaphone,
       value: String(announcements.length),
       label: "Announcements",
+    },
+    {
+      href: "/admin/people",
+      icon: UserRound,
+      value: String(users.length),
+      label: "Accounts",
+      hint: pendingRequests > 0
+        ? `${pendingRequests} waiting for access`
+        : undefined,
     },
   ];
 

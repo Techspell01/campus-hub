@@ -1,14 +1,24 @@
 import type { Metadata } from "next";
-import { Lock } from "lucide-react";
+import { Clock, Lock, ShieldQuestion } from "lucide-react";
 
 import { GlassButton } from "@/components/ui/GlassButton";
+import { requestAccessAction } from "@/server/actions/access";
 import { getCurrentUser } from "@/server/auth/current-user";
+import { hasPendingRequest } from "@/server/repositories/accounts";
 
 export const metadata: Metadata = { title: "Not authorised" };
 export const dynamic = "force-dynamic";
 
+/**
+ * Where a student lands after trying the gate scanner or a duty group.
+ *
+ * It also carries the request button, because this is the moment someone
+ * actually discovers they need access — sending them off to find a coordinator
+ * out-of-band is where the trail would go cold.
+ */
 export default async function NotAuthorisedPage() {
   const user = await getCurrentUser();
+  const pending = user ? await hasPendingRequest(user.id) : false;
 
   return (
     <div className="mx-auto max-w-md py-6">
@@ -31,7 +41,43 @@ export default async function NotAuthorisedPage() {
             : "This area needs a coordinator account."}
         </p>
 
-        <GlassButton href="/" variant="glass" size="md" className="mt-6">
+        {user?.role === "student" &&
+          (pending ? (
+            <div className="mt-6 rounded-2xl border border-amber-400/30 bg-amber-500/10 px-4 py-3.5">
+              <p className="flex items-center justify-center gap-2 text-[13.5px] font-medium text-amber-700 dark:text-amber-200">
+                <Clock size={15} aria-hidden />
+                Request sent
+              </p>
+              <p className="mt-1.5 text-[12.5px] leading-relaxed text-ink-muted">
+                A coordinator will see it in the admin area. You&apos;ll get
+                access as soon as one approves it — no need to ask again.
+              </p>
+            </div>
+          ) : (
+            <form action={requestAccessAction} className="mt-6">
+              <GlassButton
+                type="submit"
+                variant="primary"
+                size="lg"
+                fullWidth
+                icon={<ShieldQuestion />}
+              >
+                Request coordinator access
+              </GlassButton>
+              <p className="mt-2.5 text-[12px] leading-relaxed text-ink-faint">
+                This puts your name in front of the existing coordinators. They
+                decide.
+              </p>
+            </form>
+          ))}
+
+        <GlassButton
+          href="/"
+          variant="glass"
+          size="md"
+          fullWidth
+          className="mt-4"
+        >
           Back to the Hub
         </GlassButton>
       </div>
