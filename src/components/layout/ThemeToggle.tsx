@@ -1,8 +1,6 @@
 "use client";
 
 import { Moon, Sun } from "lucide-react";
-import { useEffect } from "react";
-
 import { GlassButton } from "@/components/ui/GlassButton";
 import { HAPTIC } from "@/hooks/use-haptics";
 import { cn } from "@/lib/utils";
@@ -15,17 +13,7 @@ export const THEME_STORAGE_KEY = "campus-hub-theme";
  * hydration-mismatches against the pre-paint theme script.
  */
 export function ThemeToggle({ className }: { className?: string }) {
-  useEffect(() => {
-    // Follow the OS while the student hasn't made an explicit choice.
-    const media = window.matchMedia("(prefers-color-scheme: dark)");
-    const onChange = (event: MediaQueryListEvent) => {
-      if (localStorage.getItem(THEME_STORAGE_KEY)) return;
-      document.documentElement.classList.toggle("dark", event.matches);
-    };
-    media.addEventListener("change", onChange);
-    return () => media.removeEventListener("change", onChange);
-  }, []);
-
+  // No OS listener: dark is the app's default, not a mirror of system settings.
   const toggle = () => {
     const next = document.documentElement.classList.contains("dark")
       ? "light"

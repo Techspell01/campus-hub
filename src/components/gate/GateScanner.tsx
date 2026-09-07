@@ -309,7 +309,7 @@ export function GateScanner({
           }}
         >
           <input
-            className="w-full rounded-2xl border border-white/25 bg-white/45 px-3.5 py-2.5 text-[14px] text-ink outline-none transition-colors placeholder:text-ink-faint focus:border-violet-400/60 dark:border-white/12 dark:bg-white/[0.07]"
+            className="w-full rounded-2xl border border-white/25 bg-white/45 px-3.5 py-2.5 text-[14px] text-ink outline-none transition-colors placeholder:text-ink-faint focus:border-sky-400/60 dark:border-white/12 dark:bg-white/[0.07]"
             value={manualCode}
             onChange={(changeEvent) => setManualCode(changeEvent.target.value)}
             placeholder="Paste the ticket link or code"

@@ -17,26 +17,51 @@ import { cn } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
+/**
+ * Bento tile. `wide` gives one stat more weight than the others — three
+ * identical boxes in a row is the layout every generated dashboard reaches
+ * for, and varying the rhythm is most of what stops it looking that way.
+ */
 function StatTile({
   icon: Icon,
   value,
   label,
+  wide,
   className,
 }: {
   icon: typeof Users;
   value: string;
   label: string;
+  wide?: boolean;
   className?: string;
 }) {
   return (
     <div
       className={cn(
-        "glass glass-shine relative isolate overflow-hidden rounded-glass p-4",
+        "glass glass-shine relative isolate flex flex-col overflow-hidden rounded-glass p-4",
+        wide && "col-span-2 justify-between sm:p-5",
         className,
       )}
     >
-      <Icon size={17} strokeWidth={2.2} className="text-ink-faint" aria-hidden />
-      <p className="mt-2.5 text-2xl leading-none font-semibold tracking-tight text-ink tabular-nums">
+      {wide && (
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -top-14 -right-10 -z-10 size-36 rounded-full bg-gradient-to-br from-sky-400 to-indigo-600 opacity-25 blur-2xl"
+        />
+      )}
+
+      <Icon
+        size={wide ? 19 : 17}
+        strokeWidth={2.2}
+        className="text-ink-faint"
+        aria-hidden
+      />
+      <p
+        className={cn(
+          "mt-2.5 font-display leading-none font-semibold tracking-tight text-ink tabular-nums",
+          wide ? "text-4xl sm:text-5xl" : "text-2xl",
+        )}
+      >
         {value}
       </p>
       <p className="mt-1.5 text-[12px] text-ink-muted">{label}</p>
@@ -74,10 +99,10 @@ export default async function HubPage() {
       <div className="glass glass-shine relative isolate overflow-hidden rounded-glass-lg p-8 text-center sm:p-12">
         <div
           aria-hidden
-          className="pointer-events-none absolute -top-24 -right-20 -z-10 size-72 rounded-full bg-gradient-to-br from-violet-500 to-fuchsia-500 opacity-25 blur-3xl"
+          className="pointer-events-none absolute -top-24 -right-20 -z-10 size-72 rounded-full bg-gradient-to-br from-sky-400 to-indigo-600 opacity-25 blur-3xl"
         />
 
-        <div className="mx-auto grid size-14 place-items-center rounded-3xl bg-gradient-to-br from-violet-500 via-purple-500 to-fuchsia-500 shadow-lg shadow-violet-500/35 ring-1 ring-white/25">
+        <div className="mx-auto grid size-14 place-items-center rounded-3xl bg-gradient-to-br from-sky-400 via-blue-500 to-indigo-600 shadow-lg shadow-blue-500/35 ring-1 ring-white/25">
           <Sparkles size={26} strokeWidth={2.2} className="text-white" aria-hidden />
         </div>
 
@@ -115,11 +140,12 @@ export default async function HubPage() {
         registered={registeredEventIds.has(flagship.id)}
       />
 
-      <div className="grid grid-cols-3 gap-3">
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
         <StatTile
           icon={CalendarRange}
           value={String(upcoming.length)}
-          label="Upcoming events"
+          label="Events coming up"
+          wide
         />
         <StatTile icon={Users} value={String(clubs.length)} label="Active clubs" />
         <StatTile

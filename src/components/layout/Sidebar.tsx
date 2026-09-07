@@ -25,7 +25,7 @@ export function Sidebar({ user }: { user: User | null }) {
           href="/"
           className="flex items-center gap-3 rounded-2xl p-2 transition-opacity hover:opacity-80"
         >
-          <div className="grid size-10 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-violet-500 via-purple-500 to-fuchsia-500 shadow-lg shadow-violet-500/35 ring-1 ring-white/25">
+          <div className="grid size-10 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-sky-400 via-blue-500 to-indigo-600 shadow-lg shadow-blue-500/35 ring-1 ring-white/25">
             <Sparkles size={18} strokeWidth={2.3} className="text-white" />
           </div>
           <div className="min-w-0">
@@ -80,7 +80,7 @@ export function Sidebar({ user }: { user: User | null }) {
                     strokeWidth={active ? 2.4 : 2}
                     className={cn(
                       "shrink-0 transition-colors",
-                      active && "text-violet-600 dark:text-violet-300",
+                      active && "text-blue-600 dark:text-sky-300",
                     )}
                     aria-hidden
                   />

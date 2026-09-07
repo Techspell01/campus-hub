@@ -1,13 +1,13 @@
 import type { ReactNode } from "react";
 
 import { BottomNav } from "@/components/layout/BottomNav";
-import { MeshBackground } from "@/components/layout/MeshBackground";
+import { SpaceBackground } from "@/components/layout/SpaceBackground";
 import { MobileTopBar } from "@/components/layout/MobileTopBar";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { getCurrentUser } from "@/server/auth/current-user";
 
 /**
- * App chrome: mesh backdrop, sidebar on desktop, floating tab bar on mobile.
+ * App chrome: starfield backdrop, sidebar on desktop, floating tab bar on mobile.
  *
  * Resolves the signed-in user once here and hands it to both navs — they are
  * client components and can't read the session cookie themselves.
@@ -17,7 +17,7 @@ export async function AppShell({ children }: { children: ReactNode }) {
 
   return (
     <>
-      <MeshBackground />
+      <SpaceBackground />
       <Sidebar user={user} />
 
       <div className="lg:pl-64">

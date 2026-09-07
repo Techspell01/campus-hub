@@ -75,7 +75,7 @@ export default async function AdminPeoplePage() {
                     "grid size-10 shrink-0 place-items-center rounded-2xl bg-gradient-to-br",
                     "text-[13px] font-semibold text-white ring-1 ring-white/25",
                     isCoordinator
-                      ? "from-violet-500 to-fuchsia-500"
+                      ? "from-sky-400 to-indigo-600"
                       : "from-slate-400 to-slate-500",
                   )}
                   aria-hidden
@@ -108,7 +108,7 @@ export default async function AdminPeoplePage() {
                   className={cn(
                     "shrink-0 rounded-pill border px-2.5 py-1 text-[10.5px] font-medium",
                     isCoordinator
-                      ? "border-violet-400/30 bg-violet-500/15 text-violet-700 dark:text-violet-300"
+                      ? "border-sky-400/30 bg-sky-500/15 text-sky-700 dark:text-sky-300"
                       : "border-white/20 bg-neutral-500/15 text-ink-faint",
                   )}
                 >

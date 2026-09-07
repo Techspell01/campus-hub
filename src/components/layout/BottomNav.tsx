@@ -44,7 +44,7 @@ export function BottomNav() {
                   "relative flex flex-col items-center gap-1 rounded-2xl px-1 py-2",
                   "transition-colors duration-200",
                   active
-                    ? "text-violet-600 dark:text-violet-300"
+                    ? "text-blue-600 dark:text-sky-300"
                     : "text-ink-faint",
                 )}
               >

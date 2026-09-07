@@ -129,7 +129,7 @@ export default async function DutyPage() {
 
                   <span
                     aria-hidden
-                    className="flex size-7 items-center justify-center rounded-full bg-white/45 text-violet-600 ring-1 ring-white/40 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 dark:bg-white/10 dark:text-violet-300 dark:ring-white/12"
+                    className="flex size-7 items-center justify-center rounded-full bg-white/45 text-blue-600 ring-1 ring-white/40 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 dark:bg-white/10 dark:text-sky-300 dark:ring-white/12"
                   >
                     <ArrowUpRight size={15} strokeWidth={2.4} />
                   </span>

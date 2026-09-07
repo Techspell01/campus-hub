@@ -13,7 +13,7 @@ export function MobileTopBar({ user }: { user: User | null }) {
     <header className="sticky top-0 z-40 px-3 pt-3 pb-1 lg:hidden">
       <div className="glass-strong glass-shine relative flex items-center gap-3 rounded-glass px-3 py-2.5">
         <Link href="/" className="flex min-w-0 items-center gap-2.5">
-          <div className="grid size-9 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-violet-500 via-purple-500 to-fuchsia-500 shadow-md shadow-violet-500/35 ring-1 ring-white/25">
+          <div className="grid size-9 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-sky-400 via-blue-500 to-indigo-600 shadow-md shadow-blue-500/35 ring-1 ring-white/25">
             <Sparkles size={16} strokeWidth={2.4} className="text-white" />
           </div>
           <span className="truncate text-[15px] font-semibold text-ink">

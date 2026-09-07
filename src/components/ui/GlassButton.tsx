@@ -23,8 +23,8 @@ const VARIANTS: Record<GlassButtonVariant, string> = {
   // Frosted pane — the default. `glass` + `glass-shine` come from globals.css.
   glass: "glass glass-shine text-ink",
   primary:
-    "glass-shine bg-gradient-to-br from-violet-500 via-purple-500 to-fuchsia-500 " +
-    "text-white shadow-lg shadow-violet-500/30 border border-white/20",
+    "glass-shine bg-gradient-to-br from-sky-400 via-blue-500 to-indigo-600 " +
+    "text-white shadow-lg shadow-blue-500/30 border border-white/20",
   // WhatsApp brand green, kept literal so the button is recognisable at a glance.
   whatsapp:
     "glass-shine bg-gradient-to-br from-[#25D366] to-[#128C7E] text-white " +

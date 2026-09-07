@@ -168,7 +168,7 @@ export default async function AdminEventsPage() {
                       {event.published ? "Published" : "Draft"}
                     </span>
                     {event.isFlagship && (
-                      <span className="rounded-pill border border-violet-400/30 bg-violet-500/15 px-2 py-0.5 text-[10.5px] font-medium text-violet-700 dark:text-violet-300">
+                      <span className="rounded-pill border border-sky-400/30 bg-sky-500/15 px-2 py-0.5 text-[10.5px] font-medium text-sky-700 dark:text-sky-300">
                         Flagship
                       </span>
                     )}

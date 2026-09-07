@@ -130,7 +130,7 @@ export function CountdownHero({
       : "Next major event";
 
   return (
-    <section className="glass glass-shine relative isolate overflow-hidden rounded-glass-lg p-5 sm:p-8">
+    <section className="glass glass-shine lit relative isolate overflow-hidden rounded-glass-lg p-5 sm:p-8">
       <div
         aria-hidden
         className={cn(

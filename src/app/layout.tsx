@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Space_Grotesk } from "next/font/google";
 
 import { AppShell } from "@/components/layout/AppShell";
 import "./globals.css";
@@ -7,6 +7,14 @@ import "./globals.css";
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
+  display: "swap",
+});
+
+/** Display face for headings — the app's typographic signature. */
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
   display: "swap",
 });
 
@@ -31,22 +39,24 @@ export const viewport: Viewport = {
   // Required for `env(safe-area-inset-*)` to report real values on iOS.
   viewportFit: "cover",
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f1eefb" },
-    { media: "(prefers-color-scheme: dark)", color: "#191526" },
+    { media: "(prefers-color-scheme: light)", color: "#eef1f7" },
+    { media: "(prefers-color-scheme: dark)", color: "#0d1018" },
   ],
 };
 
 /**
- * Applies the stored (or OS) theme before first paint. Inline and blocking on
- * purpose — a `useEffect` here would flash the wrong theme on every load.
+ * Applies the theme before first paint. Inline and blocking on purpose — a
+ * `useEffect` here would flash the wrong theme on every load.
+ *
+ * Dark is the default rather than the OS preference: the starfield is the
+ * app's identity, and following a light OS setting would hide it from most
+ * people who never open the toggle.
  */
 const THEME_SCRIPT = `
 (function(){try{
   var stored = localStorage.getItem('campus-hub-theme');
-  var dark = stored ? stored === 'dark'
-    : window.matchMedia('(prefers-color-scheme: dark)').matches;
-  document.documentElement.classList.toggle('dark', dark);
-}catch(e){}})();
+  document.documentElement.classList.toggle('dark', stored !== 'light');
+}catch(e){ document.documentElement.classList.add('dark'); }})();
 `;
 
 export default function RootLayout({
@@ -58,7 +68,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${inter.variable} h-full antialiased`}
+      className={`${inter.variable} ${spaceGrotesk.variable} h-full antialiased`}
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />

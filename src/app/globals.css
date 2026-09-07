@@ -1,76 +1,77 @@
 @import "tailwindcss";
 
 /* ---------------------------------------------------------------------------
-   Dark mode is class-driven so the in-app toggle can override the OS setting.
-   ThemeProvider writes `.dark` onto <html>; the blocking script in layout.tsx
-   applies the stored/OS choice before first paint so there is no flash.
+   Dark is the default, not the OS preference. The starfield identity only
+   works in the dark, so `.dark` is applied unless someone explicitly asks for
+   light — see the boot script in layout.tsx.
 --------------------------------------------------------------------------- */
 @custom-variant dark (&:where(.dark, .dark *));
 
 /* ---------------------------------------------------------------------------
-   LIGHT TOKENS
-   Raw values only. `@theme inline` below turns them into Tailwind utilities,
-   and `.dark` re-points the same names — so every utility flips automatically.
+   LIGHT TOKENS — the adapted theme. Designed after the dark one, not before.
 --------------------------------------------------------------------------- */
 :root {
   color-scheme: light;
 
-  /* Page + type */
-  --page: oklch(0.968 0.012 285);
-  --ink: oklch(0.24 0.03 285);
-  --ink-muted: oklch(0.5 0.028 285);
-  --ink-faint: oklch(0.64 0.024 285);
+  --page: oklch(0.965 0.008 240);
+  --ink: oklch(0.21 0.02 250);
+  --ink-muted: oklch(0.47 0.02 250);
+  --ink-faint: oklch(0.62 0.018 250);
 
-  /* Accents (also used for club/category tinting) */
-  --accent: oklch(0.55 0.22 295);
+  --accent: oklch(0.55 0.16 235);
   --accent-ink: oklch(0.99 0 0);
+  --accent-warm: oklch(0.62 0.16 45);
 
-  /* Gradient-mesh stops — the five blobs behind the whole app */
-  --mesh-base: oklch(0.965 0.018 285);
-  --mesh-1: oklch(0.84 0.14 300 / 0.9); /* violet */
-  --mesh-2: oklch(0.87 0.12 225 / 0.85); /* cyan   */
-  --mesh-3: oklch(0.88 0.12 350 / 0.8); /* pink   */
-  --mesh-4: oklch(0.9 0.12 155 / 0.6); /* mint   */
-  --mesh-5: oklch(0.92 0.1 70 / 0.55); /* amber  */
+  /* Daylight sky: the same composition, none of the space. */
+  --void: oklch(0.965 0.008 240);
+  --nebula-1: oklch(0.86 0.09 235 / 0.55);
+  --nebula-2: oklch(0.88 0.08 300 / 0.4);
+  --nebula-3: oklch(0.9 0.08 45 / 0.35);
+  --star: oklch(0.45 0.03 250);
 
-  /* Frosted glass — light mode leans on white at ~55% */
-  --glass-bg: rgb(255 255 255 / 0.55);
-  --glass-bg-strong: rgb(255 255 255 / 0.74);
-  --glass-border: rgb(255 255 255 / 0.75);
+  --glass-bg: rgb(255 255 255 / 0.62);
+  --glass-bg-strong: rgb(255 255 255 / 0.8);
+  --glass-border: rgb(255 255 255 / 0.8);
   --glass-shine: rgb(255 255 255 / 0.95);
-  --glass-shadow: 0 8px 32px -8px rgb(28 22 64 / 0.16),
-    0 2px 8px -3px rgb(28 22 64 / 0.08);
-  --glass-blur: 24px;
+  --glass-shadow:
+    0 10px 34px -10px rgb(20 30 60 / 0.18), 0 2px 8px -3px rgb(20 30 60 / 0.08);
+  --glass-blur: 22px;
 }
 
 /* ---------------------------------------------------------------------------
-   DARK TOKENS
+   DARK TOKENS — the primary theme.
+
+   The base is a deep blue-black rather than #000. Pure black flattens the
+   frost: `backdrop-filter` has nothing to sample, so glass panels read as flat
+   grey rectangles. A little colour in the void is what makes them look like
+   glass.
 --------------------------------------------------------------------------- */
 .dark {
   color-scheme: dark;
 
-  --page: oklch(0.155 0.022 285);
-  --ink: oklch(0.97 0.008 285);
-  --ink-muted: oklch(0.755 0.02 285);
-  --ink-faint: oklch(0.6 0.022 285);
+  --page: oklch(0.145 0.022 265);
+  --ink: oklch(0.97 0.006 260);
+  --ink-muted: oklch(0.74 0.018 260);
+  --ink-faint: oklch(0.56 0.022 260);
 
-  --accent: oklch(0.72 0.19 300);
-  --accent-ink: oklch(0.17 0.03 285);
+  /* Electric blue over warm gold — deliberately not the default violet. */
+  --accent: oklch(0.74 0.16 225);
+  --accent-ink: oklch(0.16 0.03 250);
+  --accent-warm: oklch(0.82 0.15 65);
 
-  --mesh-base: oklch(0.16 0.028 288);
-  --mesh-1: oklch(0.52 0.24 300 / 0.62);
-  --mesh-2: oklch(0.55 0.2 235 / 0.55);
-  --mesh-3: oklch(0.55 0.22 350 / 0.48);
-  --mesh-4: oklch(0.55 0.18 165 / 0.34);
-  --mesh-5: oklch(0.6 0.16 60 / 0.28);
+  --void: oklch(0.115 0.025 265);
+  --nebula-1: oklch(0.5 0.19 255 / 0.5); /* cobalt   */
+  --nebula-2: oklch(0.46 0.2 320 / 0.36); /* magenta  */
+  --nebula-3: oklch(0.55 0.15 190 / 0.28); /* teal     */
+  --star: oklch(0.98 0.01 250);
 
-  /* Dark mode glass is a white *veil*, not a white fill — hence the low alpha */
-  --glass-bg: rgb(255 255 255 / 0.07);
-  --glass-bg-strong: rgb(255 255 255 / 0.12);
-  --glass-border: rgb(255 255 255 / 0.14);
-  --glass-shine: rgb(255 255 255 / 0.35);
-  --glass-shadow: 0 8px 32px -8px rgb(0 0 0 / 0.55),
-    0 2px 8px -3px rgb(0 0 0 / 0.35);
+  --glass-bg: rgb(255 255 255 / 0.055);
+  --glass-bg-strong: rgb(255 255 255 / 0.1);
+  --glass-border: rgb(255 255 255 / 0.12);
+  --glass-shine: rgb(255 255 255 / 0.42);
+  --glass-shadow:
+    0 12px 40px -12px rgb(0 0 0 / 0.7), 0 2px 10px -4px rgb(0 0 0 / 0.45);
+  --glass-blur: 26px;
 }
 
 /* ---------------------------------------------------------------------------
@@ -83,30 +84,33 @@
   --color-ink-faint: var(--ink-faint);
   --color-accent: var(--accent);
   --color-accent-ink: var(--accent-ink);
+  --color-accent-warm: var(--accent-warm);
 
-  --color-mesh-1: var(--mesh-1);
-  --color-mesh-2: var(--mesh-2);
-  --color-mesh-3: var(--mesh-3);
-  --color-mesh-4: var(--mesh-4);
-  --color-mesh-5: var(--mesh-5);
+  --color-void: var(--void);
+  --color-nebula-1: var(--nebula-1);
+  --color-nebula-2: var(--nebula-2);
+  --color-nebula-3: var(--nebula-3);
+  --color-star: var(--star);
 
-  /* SF Pro on Apple hardware (the native-iOS feel), Inter everywhere else. */
-  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
-    var(--font-inter), system-ui, "Segoe UI", sans-serif;
+  /* Space Grotesk carries the headings; Inter does the reading. Two families
+     with different jobs is most of what stops an interface looking generic. */
+  --font-display: var(--font-space-grotesk), var(--font-inter), system-ui,
+    sans-serif;
+  --font-sans: var(--font-inter), -apple-system, BlinkMacSystemFont, system-ui,
+    "Segoe UI", sans-serif;
 }
 
 @theme {
-  /* iOS-ish continuous-corner radii */
-  --radius-glass: 1.5rem;
-  --radius-glass-lg: 2rem;
+  --radius-glass: 1.375rem;
+  --radius-glass-lg: 1.875rem;
   --radius-pill: 999px;
 
-  /* The easing curve iOS uses for sheet/nav transitions */
   --ease-ios: cubic-bezier(0.32, 0.72, 0, 1);
 
   --animate-marquee: marquee 38s linear infinite;
   --animate-shimmer: shimmer 2.6s ease-in-out infinite;
   --animate-pulse-dot: pulse-dot 2s ease-in-out infinite;
+  --animate-drift: drift 24s ease-in-out infinite;
 }
 
 @keyframes marquee {
@@ -140,45 +144,42 @@
   }
 }
 
+@keyframes drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(3%, -4%, 0) scale(1.08);
+  }
+}
+
 /* ---------------------------------------------------------------------------
    CUSTOM UTILITIES
 --------------------------------------------------------------------------- */
 
-/* The background gradient mesh. Five off-centre radial stops over a base
-   colour — the blurred motion blobs in <MeshBackground> sit on top of this. */
-@utility bg-aurora-mesh {
-  background-color: var(--mesh-base);
-  background-image:
-    radial-gradient(at 12% 16%, var(--mesh-1) 0px, transparent 55%),
-    radial-gradient(at 86% 10%, var(--mesh-2) 0px, transparent 50%),
-    radial-gradient(at 78% 84%, var(--mesh-3) 0px, transparent 55%),
-    radial-gradient(at 14% 88%, var(--mesh-4) 0px, transparent 50%),
-    radial-gradient(at 50% 46%, var(--mesh-5) 0px, transparent 62%);
-}
-
-/* Frosted pane. One utility instead of repeating
-   `bg-white/55 dark:bg-white/7 border-white/75 dark:border-white/14 …`
-   on every surface — and it keeps light/dark in sync by construction. */
+/* Frosted pane. One utility instead of repeating a dozen colour classes on
+   every surface, and it keeps light/dark in step by construction. */
 @utility glass {
   background-color: var(--glass-bg);
   border: 1px solid var(--glass-border);
   box-shadow: var(--glass-shadow);
-  backdrop-filter: blur(var(--glass-blur)) saturate(180%);
-  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(180%);
+  backdrop-filter: blur(var(--glass-blur)) saturate(160%);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(160%);
 }
 
-/* Higher-opacity pane for nav bars and anything that must stay readable
-   while content scrolls underneath it. */
+/* Higher opacity for nav bars, which must stay readable while content scrolls
+   underneath them. */
 @utility glass-strong {
   background-color: var(--glass-bg-strong);
   border: 1px solid var(--glass-border);
   box-shadow: var(--glass-shadow);
-  backdrop-filter: blur(32px) saturate(200%);
-  -webkit-backdrop-filter: blur(32px) saturate(200%);
+  backdrop-filter: blur(34px) saturate(180%);
+  -webkit-backdrop-filter: blur(34px) saturate(180%);
 }
 
-/* The specular highlight along the top-left edge that sells real glass.
-   A 1px gradient ring, masked to the border box. Needs `relative` on the host. */
+/* The specular highlight along the top edge that sells real glass: a 1px
+   gradient ring masked to the border box. Needs `relative` on the host. */
 @utility glass-shine {
   &::before {
     content: "";
@@ -189,9 +190,9 @@
     background: linear-gradient(
       145deg,
       var(--glass-shine),
-      transparent 38%,
-      transparent 62%,
-      color-mix(in oklch, var(--glass-shine) 45%, transparent)
+      transparent 40%,
+      transparent 60%,
+      color-mix(in oklch, var(--glass-shine) 35%, transparent)
     );
     -webkit-mask:
       linear-gradient(#000 0 0) content-box,
@@ -205,6 +206,13 @@
   }
 }
 
+/* Accent glow for the one element on a screen that should pull the eye. */
+@utility lit {
+  box-shadow:
+    0 0 0 1px color-mix(in oklch, var(--accent) 30%, transparent),
+    0 8px 30px -6px color-mix(in oklch, var(--accent) 45%, transparent);
+}
+
 @utility no-scrollbar {
   scrollbar-width: none;
   &::-webkit-scrollbar {
@@ -212,13 +220,9 @@
   }
 }
 
-/* Bottom nav / floating buttons clear the iOS home indicator. */
+/* Bottom nav and floating buttons clear the iOS home indicator. */
 @utility pb-safe {
   padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
-}
-
-@utility mb-safe-nav {
-  margin-bottom: calc(5.5rem + env(safe-area-inset-bottom));
 }
 
 /* ---------------------------------------------------------------------------
@@ -233,12 +237,21 @@
     background-color: var(--page);
     color: var(--ink);
     font-family: var(--font-sans);
-    /* Stops the rubber-band overscroll from revealing white behind the mesh */
+    /* Stops rubber-band overscroll flashing white behind the starfield. */
     overscroll-behavior-y: none;
   }
 
+  /* Headings get the display face and tighter tracking automatically. */
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    letter-spacing: -0.022em;
+  }
+
   ::selection {
-    background-color: color-mix(in oklch, var(--accent) 35%, transparent);
+    background-color: color-mix(in oklch, var(--accent) 40%, transparent);
+    color: var(--ink);
   }
 
   :focus-visible {
