@@ -11,9 +11,13 @@ import type { ReactNode } from "react";
  * a cut.
  *
  * Direction comes from the `transitionTypes` on each `<Link>`: drilling into a
- * detail page slides left, a back button slides right, and switching tabs just
- * crossfades — a tab bar is lateral movement, so a directional slide there
- * would imply a hierarchy that isn't real.
+ * detail page slides left and a back button slides right.
+ *
+ * Tab-bar links deliberately carry no type. A view transition replaces the
+ * live page with a static snapshot for its whole duration, which froze the
+ * bottom bar mid-navigation and made its sliding indicator look stuck. Tabs
+ * therefore swap instantly and the moving indicator carries the continuity —
+ * the same thing Instagram does between Home, Reels and DMs.
  *
  * `default: "none"` means anything untyped — browser back/forward,
  * `router.refresh()`, a Suspense reveal — passes through unanimated instead of
@@ -22,7 +26,6 @@ import type { ReactNode } from "react";
 const BY_TYPE = {
   "nav-forward": "nav-forward",
   "nav-back": "nav-back",
-  "nav-fade": "nav-fade",
   default: "none",
 };
 

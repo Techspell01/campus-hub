@@ -435,15 +435,6 @@
     300ms cubic-bezier(0.32, 0.72, 0, 1) both vt-slide;
 }
 
-/* Tab bar: sideways movement between peers, so no direction is implied.
-   Kept short — a tab switch should feel instant, not choreographed. */
-::view-transition-old(.nav-fade) {
-  animation: 80ms ease-in both vt-fade reverse;
-}
-::view-transition-new(.nav-fade) {
-  animation: 140ms ease-out 80ms both vt-fade;
-}
-
 /* The page snapshot is transparent — the starfield behind it is separate
    chrome — so any moment where both the outgoing and incoming snapshots are
    visible shows one page through the other. The browser's default root

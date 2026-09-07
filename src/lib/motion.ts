@@ -22,6 +22,18 @@ export const surfaceSpring: Transition = {
   mass: 0.9,
 };
 
+/**
+ * The tab indicator. Fast and almost critically damped: it should arrive
+ * before you finish moving your thumb, and settle without wobbling — a bouncy
+ * indicator reads as playful on a panel and as broken on a nav bar.
+ */
+export const navSpring: Transition = {
+  type: "spring",
+  stiffness: 520,
+  damping: 36,
+  mass: 0.7,
+};
+
 /** Bouncier still — badges, toggles, counters. */
 export const popSpring: Transition = {
   type: "spring",

@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 
 import { NAV_ITEMS, isActiveRoute } from "@/components/layout/nav-items";
 import { HAPTIC, useHaptics } from "@/hooks/use-haptics";
-import { pressSpring, surfaceSpring } from "@/lib/motion";
+import { navSpring, pressSpring } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 /**
@@ -40,7 +40,6 @@ export function BottomNav() {
               <Link
                 href={href}
                 onClick={() => vibrate(HAPTIC.select)}
-                transitionTypes={["nav-fade"]}
                 aria-current={active ? "page" : undefined}
                 className={cn(
                   "relative flex flex-col items-center gap-1 rounded-2xl px-1 py-2",
@@ -53,17 +52,25 @@ export function BottomNav() {
                 {active ? (
                   <motion.span
                     layoutId="bottomnav-active-pill"
-                    transition={surfaceSpring}
-                    className="absolute inset-0 -z-10 rounded-2xl border border-white/25 bg-white/50 dark:border-white/12 dark:bg-white/10"
+                    transition={navSpring}
+                    className={cn(
+                      "absolute inset-0 -z-10 rounded-2xl",
+                      // A raised pane rather than a flat tint: the inset top
+                      // line reads as a lit edge, so the pill looks lifted out
+                      // of the bar instead of painted onto it.
+                      "border border-white/25 bg-white/55 dark:border-white/15 dark:bg-white/12",
+                      "shadow-[inset_0_1px_0_0_rgb(255_255_255/0.35),0_3px_12px_-4px_rgb(0_0_0/0.5)]",
+                    )}
                   />
                 ) : null}
 
-                <Icon
-                  size={20}
-                  strokeWidth={active ? 2.5 : 2}
-                  aria-hidden
+                <motion.span
+                  animate={{ scale: active ? 1.08 : 1 }}
+                  transition={navSpring}
                   className="shrink-0"
-                />
+                >
+                  <Icon size={20} strokeWidth={active ? 2.5 : 2} aria-hidden />
+                </motion.span>
                 <span className="text-[10px] leading-none font-medium tracking-[0.01em]">
                   {label}
                 </span>

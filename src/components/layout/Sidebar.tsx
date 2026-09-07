@@ -9,7 +9,7 @@ import { UserMenu } from "@/components/auth/UserMenu";
 import { ThemeToggle } from "@/components/layout/ThemeToggle";
 import { NAV_ITEMS, isActiveRoute } from "@/components/layout/nav-items";
 import { HAPTIC, useHaptics } from "@/hooks/use-haptics";
-import { pressSpring, surfaceSpring } from "@/lib/motion";
+import { navSpring, pressSpring } from "@/lib/motion";
 import type { User } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
@@ -63,7 +63,6 @@ export function Sidebar({ user }: { user: User | null }) {
                 <Link
                   href={href}
                   onClick={() => vibrate(HAPTIC.select)}
-                  transitionTypes={["nav-fade"]}
                   aria-current={active ? "page" : undefined}
                   className={cn(
                     "relative flex items-center gap-3 rounded-2xl px-3 py-2.5",
@@ -74,8 +73,8 @@ export function Sidebar({ user }: { user: User | null }) {
                   {active ? (
                     <motion.span
                       layoutId="sidebar-active-pill"
-                      transition={surfaceSpring}
-                      className="absolute inset-0 -z-10 rounded-2xl border border-white/25 bg-white/45 shadow-sm dark:border-white/12 dark:bg-white/10"
+                      transition={navSpring}
+                      className="absolute inset-0 -z-10 rounded-2xl border border-white/25 bg-white/50 shadow-[inset_0_1px_0_0_rgb(255_255_255/0.3),0_3px_12px_-5px_rgb(0_0_0/0.45)] dark:border-white/15 dark:bg-white/12"
                     />
                   ) : null}
 
