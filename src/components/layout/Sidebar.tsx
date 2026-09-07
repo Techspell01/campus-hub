@@ -19,7 +19,10 @@ export function Sidebar({ user }: { user: User | null }) {
   const vibrate = useHaptics();
 
   return (
-    <aside className="fixed inset-y-0 left-0 z-40 hidden w-64 p-4 lg:block">
+    <aside
+      style={{ viewTransitionName: "app-sidebar" }}
+      className="fixed inset-y-0 left-0 z-40 hidden w-64 p-4 lg:block"
+    >
       <div className="glass glass-shine relative flex h-full flex-col rounded-glass-lg p-4">
         <Link
           href="/"
@@ -60,6 +63,7 @@ export function Sidebar({ user }: { user: User | null }) {
                 <Link
                   href={href}
                   onClick={() => vibrate(HAPTIC.select)}
+                  transitionTypes={["nav-fade"]}
                   aria-current={active ? "page" : undefined}
                   className={cn(
                     "relative flex items-center gap-3 rounded-2xl px-3 py-2.5",

@@ -126,7 +126,13 @@ export default async function VerifyPage({
         )}
       </div>
 
-      <GlassButton href="/" variant="glass" size="md" fullWidth>
+      <GlassButton
+        href="/"
+        variant="glass"
+        size="md"
+        fullWidth
+        transitionTypes={["nav-back"]}
+      >
         Back to the Hub
       </GlassButton>
     </div>

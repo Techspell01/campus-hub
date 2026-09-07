@@ -23,6 +23,7 @@ export function BottomNav() {
   return (
     <nav
       aria-label="Primary"
+      style={{ viewTransitionName: "app-bottomnav" }}
       className="pb-safe fixed inset-x-0 bottom-0 z-50 px-3 pt-2 lg:hidden"
     >
       <div className="glass-strong glass-shine relative mx-auto flex max-w-md items-stretch justify-around gap-1 rounded-glass p-1.5">
@@ -39,6 +40,7 @@ export function BottomNav() {
               <Link
                 href={href}
                 onClick={() => vibrate(HAPTIC.select)}
+                transitionTypes={["nav-fade"]}
                 aria-current={active ? "page" : undefined}
                 className={cn(
                   "relative flex flex-col items-center gap-1 rounded-2xl px-1 py-2",

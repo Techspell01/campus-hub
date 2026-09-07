@@ -344,6 +344,93 @@
   }
 }
 
+/* ---------------------------------------------------------------------------
+   ROUTE TRANSITIONS
+
+   Driven by `template.tsx` and the `transitionTypes` on each Link.
+
+   The timing is deliberately asymmetric: old content leaves fast (140ms) so it
+   stops competing for attention, new content arrives more gently and waits for
+   the exit to finish before it fades up. The slide runs longer than either
+   fade, so movement continues after the crossfade settles — that overlap is
+   what reads as one continuous motion instead of two separate steps.
+--------------------------------------------------------------------------- */
+@keyframes vt-fade {
+  from {
+    opacity: 0;
+    filter: blur(2px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+@keyframes vt-slide {
+  from {
+    translate: var(--vt-offset);
+  }
+  to {
+    translate: 0;
+  }
+}
+
+/* Drilling in: the outgoing page exits left, the new one enters from the
+   right — the direction a page turns in a left-to-right language. */
+::view-transition-old(.nav-forward) {
+  --vt-offset: -56px;
+  animation:
+    140ms ease-in both vt-fade reverse,
+    380ms cubic-bezier(0.32, 0.72, 0, 1) both vt-slide reverse;
+}
+::view-transition-new(.nav-forward) {
+  --vt-offset: 56px;
+  animation:
+    200ms ease-out 140ms both vt-fade,
+    380ms cubic-bezier(0.32, 0.72, 0, 1) both vt-slide;
+}
+
+/* Going back is the same motion mirrored, which is what makes it read as
+   undoing the step rather than taking another one. */
+::view-transition-old(.nav-back) {
+  --vt-offset: 56px;
+  animation:
+    140ms ease-in both vt-fade reverse,
+    380ms cubic-bezier(0.32, 0.72, 0, 1) both vt-slide reverse;
+}
+::view-transition-new(.nav-back) {
+  --vt-offset: -56px;
+  animation:
+    200ms ease-out 140ms both vt-fade,
+    380ms cubic-bezier(0.32, 0.72, 0, 1) both vt-slide;
+}
+
+/* Tab bar: sideways movement between peers, so no direction is implied. */
+::view-transition-old(.nav-fade) {
+  animation: 120ms ease-in both vt-fade reverse;
+}
+::view-transition-new(.nav-fade) {
+  animation: 220ms ease-out 100ms both vt-fade;
+}
+
+/* The chrome is the user's spatial anchor. If the nav slid with the content,
+   the whole viewport would appear to move and the direction would stop
+   meaning anything. Each piece gets its own snapshot and holds still. */
+::view-transition-group(app-backdrop),
+::view-transition-group(app-sidebar),
+::view-transition-group(app-topbar),
+::view-transition-group(app-bottomnav) {
+  animation: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

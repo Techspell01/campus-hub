@@ -40,7 +40,7 @@ export default async function DutySessionPage({ params }: SessionPageProps) {
 
   return (
     <div className="space-y-6">
-      <GlassButton href="/duty" variant="ghost" size="sm" icon={<ArrowLeft />}>
+      <GlassButton href="/duty" variant="ghost" size="sm" icon={<ArrowLeft />} transitionTypes={["nav-back"]}>
         All duty groups
       </GlassButton>
 

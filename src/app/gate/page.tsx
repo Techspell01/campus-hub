@@ -18,7 +18,7 @@ export default async function GatePage() {
 
   return (
     <div className="mx-auto max-w-md space-y-5">
-      <GlassButton href="/duty" variant="ghost" size="sm" icon={<ArrowLeft />}>
+      <GlassButton href="/duty" variant="ghost" size="sm" icon={<ArrowLeft />} transitionTypes={["nav-back"]}>
         Coordinator tools
       </GlassButton>
 

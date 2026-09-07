@@ -1,21 +1,35 @@
-"use client";
-
-import { motion } from "framer-motion";
+import { ViewTransition } from "react";
 import type { ReactNode } from "react";
 
 /**
- * `template.tsx` remounts on every navigation (unlike `layout.tsx`), which is
- * what lets each route play an entrance without wiring AnimatePresence through
- * the router.
+ * Route transitions.
+ *
+ * Replaces a Framer entrance animation, which could only ever fade the *new*
+ * page in — the old one was already gone by the time it mounted. The browser's
+ * View Transitions API snapshots both, so content can leave and arrive
+ * together, which is what makes a navigation feel continuous rather than like
+ * a cut.
+ *
+ * Direction comes from the `transitionTypes` on each `<Link>`: drilling into a
+ * detail page slides left, a back button slides right, and switching tabs just
+ * crossfades — a tab bar is lateral movement, so a directional slide there
+ * would imply a hierarchy that isn't real.
+ *
+ * `default: "none"` means anything untyped — browser back/forward,
+ * `router.refresh()`, a Suspense reveal — passes through unanimated instead of
+ * picking a direction at random.
  */
+const BY_TYPE = {
+  "nav-forward": "nav-forward",
+  "nav-back": "nav-back",
+  "nav-fade": "nav-fade",
+  default: "none",
+};
+
 export default function Template({ children }: { children: ReactNode }) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 12, filter: "blur(6px)" }}
-      animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-      transition={{ duration: 0.42, ease: [0.32, 0.72, 0, 1] }}
-    >
+    <ViewTransition enter={BY_TYPE} exit={BY_TYPE} default="none">
       {children}
-    </motion.div>
+    </ViewTransition>
   );
 }

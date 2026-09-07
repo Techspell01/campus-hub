@@ -20,6 +20,8 @@ interface GlassCardProps {
   /** Higher opacity + blur, for surfaces content scrolls beneath. */
   strong?: boolean;
   ariaLabel?: string;
+  /** Direction for the route transition, e.g. `["nav-forward"]`. */
+  transitionTypes?: string[];
 }
 
 /**
@@ -35,6 +37,8 @@ export function GlassCard({
   onClick,
   strong,
   ariaLabel,
+  // Cards are almost always a drill-down, so that is the sensible default.
+  transitionTypes = ["nav-forward"],
 }: GlassCardProps) {
   const vibrate = useHaptics();
   const isInteractive = Boolean(interactive || href || onClick);
@@ -67,6 +71,7 @@ export function GlassCard({
         aria-label={ariaLabel}
         className={classes}
         onClick={handleClick}
+        transitionTypes={transitionTypes}
         {...motionProps}
       >
         {children}

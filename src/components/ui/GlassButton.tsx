@@ -79,6 +79,8 @@ type LinkProps = BaseProps & {
   href: string;
   /** Opens in a new tab with `rel="noopener"`. Required for wa.me links. */
   external?: boolean;
+  /** Direction for the route transition, e.g. `["nav-back"]`. */
+  transitionTypes?: string[];
   type?: never;
 };
 
@@ -215,7 +217,12 @@ export function GlassButton(props: GlassButtonProps) {
     }
 
     return withPulse(
-      <MotionLink {...motionProps} {...shared} href={props.href}>
+      <MotionLink
+        {...motionProps}
+        {...shared}
+        href={props.href}
+        transitionTypes={props.transitionTypes}
+      >
         {content}
       </MotionLink>,
     );

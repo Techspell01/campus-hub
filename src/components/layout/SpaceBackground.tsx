@@ -20,6 +20,7 @@ export function SpaceBackground() {
   return (
     <div
       aria-hidden
+      style={{ viewTransitionName: "app-backdrop" }}
       className="pointer-events-none fixed inset-0 -z-50 overflow-hidden bg-void"
     >
       {/* Nebulae. Heavily blurred and slowly drifting, so the light behind the

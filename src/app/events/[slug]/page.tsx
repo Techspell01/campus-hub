@@ -50,7 +50,7 @@ export default async function EventDetailPage({ params }: EventPageProps) {
 
   return (
     <div className="space-y-9">
-      <GlassButton href="/events" variant="ghost" size="sm" icon={<ArrowLeft />}>
+      <GlassButton href="/events" variant="ghost" size="sm" icon={<ArrowLeft />} transitionTypes={["nav-back"]}>
         All events
       </GlassButton>
 

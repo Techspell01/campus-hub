@@ -77,6 +77,7 @@ export default async function NotAuthorisedPage() {
           size="md"
           fullWidth
           className="mt-4"
+          transitionTypes={["nav-back"]}
         >
           Back to the Hub
         </GlassButton>
