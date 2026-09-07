@@ -28,4 +28,10 @@ export const HAPTIC = {
   select: 12,
   success: [12, 40, 18],
   warning: [20, 60, 20],
+  /**
+   * Lub-dub. A short beat, a gap, then a longer one — the asymmetry is what
+   * makes it feel like a pulse instead of a stutter. Reserved for the primary
+   * action so the important button is recognisable without looking.
+   */
+  heartbeat: [14, 90, 26],
 } as const;

@@ -77,12 +77,14 @@ export function RegisterButton({
     <form action={formAction} className={cn("space-y-2", className)}>
       <input type="hidden" name="eventId" value={eventId} />
 
+      {/* The one action the whole page exists for — so it gets the pulse. */}
       <GlassButton
         type="submit"
         variant="primary"
         size={size}
         icon={<Ticket />}
         disabled={pending}
+        pulse
       >
         {pending ? "Registering…" : "Register"}
       </GlassButton>

@@ -19,20 +19,25 @@ export type GlassButtonVariant =
 
 export type GlassButtonSize = "sm" | "md" | "lg" | "icon";
 
+/**
+ * `glass-control` and `glass-accent` (globals.css) carry the inset edge
+ * highlights that make a small element read as a physical control rather than
+ * a translucent rectangle. The tinted variants stay genuinely see-through —
+ * a solid fill would lose the effect at exactly the size it matters most.
+ */
 const VARIANTS: Record<GlassButtonVariant, string> = {
-  // Frosted pane — the default. `glass` + `glass-shine` come from globals.css.
-  glass: "glass glass-shine text-ink",
-  primary:
-    "glass-shine bg-gradient-to-br from-sky-400 via-blue-500 to-indigo-600 " +
-    "text-white shadow-lg shadow-blue-500/30 border border-white/20",
-  // WhatsApp brand green, kept literal so the button is recognisable at a glance.
+  glass: "glass-control glass-shine text-ink",
+  primary: "glass-accent glass-shine text-white",
+  // WhatsApp brand green, kept recognisable but let through the same frost.
   whatsapp:
-    "glass-shine bg-gradient-to-br from-[#25D366] to-[#128C7E] text-white " +
-    "shadow-lg shadow-emerald-600/25 border border-white/20",
+    "glass-shine text-white border border-white/25 backdrop-blur-xl " +
+    "bg-gradient-to-br from-[#25D366]/90 to-[#128C7E]/75 " +
+    "shadow-lg shadow-emerald-600/30",
   ghost: "text-ink-muted border border-transparent",
   danger:
-    "glass-shine bg-gradient-to-br from-rose-500 to-red-600 text-white " +
-    "shadow-lg shadow-rose-500/30 border border-white/20",
+    "glass-shine text-white border border-white/25 backdrop-blur-xl " +
+    "bg-gradient-to-br from-rose-500/90 to-red-600/75 " +
+    "shadow-lg shadow-rose-500/30",
 };
 
 // Icons are sized in CSS rather than by prop so a caller can pass any `<Icon />`
@@ -62,6 +67,12 @@ interface BaseProps {
   onClick?: (event: MouseEvent<HTMLElement>) => void;
   /** Vibration pattern for the press. Pass `null` to stay silent. */
   haptic?: number | readonly number[] | null;
+  /**
+   * Wraps the button in a slowly beating halo. For the single most important
+   * action on a screen — more than one pulsing thing and neither reads as
+   * urgent.
+   */
+  pulse?: boolean;
 }
 
 type LinkProps = BaseProps & {
@@ -97,10 +108,19 @@ export function GlassButton(props: GlassButtonProps) {
     className,
     children,
     onClick,
-    haptic = HAPTIC.tap,
     title,
+    pulse,
     "aria-label": ariaLabel,
   } = props;
+
+  // The prominent action gets the lub-dub pattern, so the important button is
+  // identifiable by feel alone.
+  const haptic =
+    props.haptic !== undefined
+      ? props.haptic
+      : variant === "primary"
+        ? HAPTIC.heartbeat
+        : HAPTIC.tap;
 
   const vibrate = useHaptics();
 
@@ -155,9 +175,33 @@ export function GlassButton(props: GlassButtonProps) {
     onClick: handleClick,
   };
 
+  /**
+   * The halo is a sibling rather than a pseudo-element on the button, because
+   * Framer Motion writes the button's `transform` for `whileTap` — a CSS
+   * animation on the same property there would be silently overridden.
+   */
+  const withPulse = (control: ReactNode) => {
+    if (!pulse || disabled) return control;
+
+    return (
+      <span
+        className={cn(
+          "relative inline-flex isolate",
+          fullWidth ? "w-full" : "w-auto",
+        )}
+      >
+        <span
+          aria-hidden
+          className="animate-heartbeat pointer-events-none absolute inset-0 -z-10 rounded-pill bg-accent/50 blur-lg"
+        />
+        {control}
+      </span>
+    );
+  };
+
   if (props.href !== undefined) {
     if (props.external) {
-      return (
+      return withPulse(
         <motion.a
           {...motionProps}
           {...shared}
@@ -166,18 +210,18 @@ export function GlassButton(props: GlassButtonProps) {
           rel="noopener noreferrer"
         >
           {content}
-        </motion.a>
+        </motion.a>,
       );
     }
 
-    return (
+    return withPulse(
       <MotionLink {...motionProps} {...shared} href={props.href}>
         {content}
-      </MotionLink>
+      </MotionLink>,
     );
   }
 
-  return (
+  return withPulse(
     <motion.button
       {...motionProps}
       {...shared}
@@ -185,6 +229,6 @@ export function GlassButton(props: GlassButtonProps) {
       disabled={disabled}
     >
       {content}
-    </motion.button>
+    </motion.button>,
   );
 }
