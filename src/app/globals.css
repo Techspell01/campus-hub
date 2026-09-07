@@ -303,6 +303,12 @@
   padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
 }
 
+/* Installed to the home screen, iOS draws the app under a translucent status
+   bar. Without this the header sits beneath the clock. */
+@utility pt-safe {
+  padding-top: max(0.75rem, env(safe-area-inset-top));
+}
+
 /* ---------------------------------------------------------------------------
    BASE
 --------------------------------------------------------------------------- */
