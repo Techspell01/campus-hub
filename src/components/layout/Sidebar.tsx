@@ -62,6 +62,7 @@ export function Sidebar({ user }: { user: User | null }) {
               <motion.div key={href} whileTap={{ scale: 0.97 }} transition={pressSpring}>
                 <Link
                   href={href}
+                  prefetch
                   onClick={() => vibrate(HAPTIC.select)}
                   aria-current={active ? "page" : undefined}
                   className={cn(

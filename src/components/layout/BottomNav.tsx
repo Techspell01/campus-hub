@@ -39,6 +39,10 @@ export function BottomNav() {
             >
               <Link
                 href={href}
+                // Dynamic routes only prefetch their loading shell by default.
+                // The whole page, so the first tap is instant rather than just
+                // the way back.
+                prefetch
                 onClick={() => vibrate(HAPTIC.select)}
                 aria-current={active ? "page" : undefined}
                 className={cn(
