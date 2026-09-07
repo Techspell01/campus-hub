@@ -250,6 +250,36 @@
   }
 }
 
+/* Nebulae as gradients rather than blurred shapes.
+ *
+ * These were solid circles under `filter: blur(110px)`. A blur that wide over
+ * an element that large is one of the most expensive things a mobile GPU can
+ * be asked to do, and it was repainting every frame because the shapes drift.
+ * A radial gradient with a soft falloff looks the same and costs nothing —
+ * gradients are rasterised once, filters are recomputed continuously.
+ */
+@utility nebula-a {
+  background-image: radial-gradient(
+    circle at 50% 50%,
+    var(--nebula-1) 0%,
+    transparent 66%
+  );
+}
+@utility nebula-b {
+  background-image: radial-gradient(
+    circle at 50% 50%,
+    var(--nebula-2) 0%,
+    transparent 64%
+  );
+}
+@utility nebula-c {
+  background-image: radial-gradient(
+    circle at 50% 50%,
+    var(--nebula-3) 0%,
+    transparent 62%
+  );
+}
+
 /* Control-grade glass.
  *
  * Panels get away with a plain frost, but a button is small, so the effect has
@@ -380,14 +410,14 @@
 ::view-transition-old(.nav-forward) {
   --vt-offset: -56px;
   animation:
-    140ms ease-in both vt-fade reverse,
-    380ms cubic-bezier(0.32, 0.72, 0, 1) both vt-slide reverse;
+    120ms ease-in both vt-fade reverse,
+    300ms cubic-bezier(0.32, 0.72, 0, 1) both vt-slide reverse;
 }
 ::view-transition-new(.nav-forward) {
   --vt-offset: 56px;
   animation:
-    200ms ease-out 140ms both vt-fade,
-    380ms cubic-bezier(0.32, 0.72, 0, 1) both vt-slide;
+    170ms ease-out 120ms both vt-fade,
+    300ms cubic-bezier(0.32, 0.72, 0, 1) both vt-slide;
 }
 
 /* Going back is the same motion mirrored, which is what makes it read as
@@ -395,23 +425,38 @@
 ::view-transition-old(.nav-back) {
   --vt-offset: 56px;
   animation:
-    140ms ease-in both vt-fade reverse,
-    380ms cubic-bezier(0.32, 0.72, 0, 1) both vt-slide reverse;
+    120ms ease-in both vt-fade reverse,
+    300ms cubic-bezier(0.32, 0.72, 0, 1) both vt-slide reverse;
 }
 ::view-transition-new(.nav-back) {
   --vt-offset: -56px;
   animation:
-    200ms ease-out 140ms both vt-fade,
-    380ms cubic-bezier(0.32, 0.72, 0, 1) both vt-slide;
+    170ms ease-out 120ms both vt-fade,
+    300ms cubic-bezier(0.32, 0.72, 0, 1) both vt-slide;
 }
 
-/* Tab bar: sideways movement between peers, so no direction is implied. */
+/* Tab bar: sideways movement between peers, so no direction is implied.
+   Kept short — a tab switch should feel instant, not choreographed. */
 ::view-transition-old(.nav-fade) {
-  animation: 120ms ease-in both vt-fade reverse;
+  animation: 80ms ease-in both vt-fade reverse;
 }
 ::view-transition-new(.nav-fade) {
-  animation: 220ms ease-out 100ms both vt-fade;
+  animation: 140ms ease-out 80ms both vt-fade;
 }
+
+/* The page snapshot is transparent — the starfield behind it is separate
+   chrome — so any moment where both the outgoing and incoming snapshots are
+   visible shows one page through the other. The browser's default root
+   crossfade did exactly that underneath every named transition, which is what
+   made navigation look like it was lagging rather than moving. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+/* For the same reason every pair below is sequenced, never overlapped: the
+   incoming animation starts precisely when the outgoing one ends. */
 
 /* The chrome is the user's spatial anchor. If the nav slid with the content,
    the whole viewport would appear to move and the direction would stop

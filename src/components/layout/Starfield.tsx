@@ -19,6 +19,15 @@ const DENSITY = 90;
 const MAX_STARS = 420;
 
 /**
+ * Phones get fewer stars and a lower backing resolution.
+ *
+ * A modern phone reports a device pixel ratio of 3, which would mean filling
+ * nine times the pixels of a logical one. Stars are 1–2px dots; past about
+ * 1.5x nobody can tell, and the saving is most of the per-frame cost.
+ */
+const MOBILE_BREAKPOINT = 640;
+
+/**
  * Drifting starfield on a canvas.
  *
  * Canvas rather than hundreds of DOM nodes: this is one composited layer the
@@ -58,9 +67,11 @@ export function Starfield() {
     let colour = starColour();
 
     function build() {
-      const ratio = Math.min(window.devicePixelRatio || 1, 2);
       width = window.innerWidth;
       height = window.innerHeight;
+
+      const isPhone = width < MOBILE_BREAKPOINT;
+      const ratio = Math.min(window.devicePixelRatio || 1, isPhone ? 1.5 : 2);
 
       canvas!.width = Math.floor(width * ratio);
       canvas!.height = Math.floor(height * ratio);
@@ -70,7 +81,9 @@ export function Starfield() {
 
       const count = Math.min(
         MAX_STARS,
-        Math.round((width * height * DENSITY) / 1_000_000),
+        Math.round(
+          (width * height * (isPhone ? DENSITY * 0.6 : DENSITY)) / 1_000_000,
+        ),
       );
 
       stars = Array.from({ length: count }, () => {
@@ -114,9 +127,18 @@ export function Starfield() {
           0,
           Math.min(1, star.baseAlpha * flicker),
         );
-        context!.beginPath();
-        context!.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-        context!.fill();
+
+        // Below ~1px a square and a circle are indistinguishable, and
+        // `fillRect` skips the path machinery `arc` needs. Most stars are
+        // small, so most of them take the cheap route.
+        if (star.radius < 1.1) {
+          const d = star.radius * 2;
+          context!.fillRect(star.x, star.y, d, d);
+        } else {
+          context!.beginPath();
+          context!.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+          context!.fill();
+        }
       }
 
       context!.globalAlpha = 1;
