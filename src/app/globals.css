@@ -41,36 +41,44 @@
 /* ---------------------------------------------------------------------------
    DARK TOKENS — the primary theme.
 
-   The base is a deep blue-black rather than #000. Pure black flattens the
-   frost: `backdrop-filter` has nothing to sample, so glass panels read as flat
-   grey rectangles. A little colour in the void is what makes them look like
-   glass.
+   Black, as close as the glass allows. `backdrop-filter` works by sampling
+   what sits behind an element, so on literal #000 every frosted panel has
+   nothing to refract and flattens into a grey rectangle. The void therefore
+   keeps a trace of chroma and the nebulae stay faintly lit — enough for the
+   glass to catch, far too little to tint the page.
 --------------------------------------------------------------------------- */
 .dark {
   color-scheme: dark;
 
-  --page: oklch(0.145 0.022 265);
-  --ink: oklch(0.97 0.006 260);
-  --ink-muted: oklch(0.74 0.018 260);
-  --ink-faint: oklch(0.56 0.022 260);
+  --page: oklch(0.07 0.006 265);
+  --ink: oklch(0.97 0.004 260);
+  --ink-muted: oklch(0.74 0.014 260);
+  --ink-faint: oklch(0.56 0.016 260);
 
   /* Electric blue over warm gold — deliberately not the default violet. */
   --accent: oklch(0.74 0.16 225);
   --accent-ink: oklch(0.16 0.03 250);
   --accent-warm: oklch(0.82 0.15 65);
 
-  --void: oklch(0.115 0.025 265);
-  --nebula-1: oklch(0.5 0.19 255 / 0.5); /* cobalt   */
-  --nebula-2: oklch(0.46 0.2 320 / 0.36); /* magenta  */
-  --nebula-3: oklch(0.55 0.15 190 / 0.28); /* teal     */
-  --star: oklch(0.98 0.01 250);
+  /* Near-black. Not #000: a trace of chroma keeps the frost from turning
+     grey, but at this lightness the eye reads it as black. */
+  --void: oklch(0.05 0.005 265);
 
-  --glass-bg: rgb(255 255 255 / 0.055);
-  --glass-bg-strong: rgb(255 255 255 / 0.1);
-  --glass-border: rgb(255 255 255 / 0.12);
-  --glass-shine: rgb(255 255 255 / 0.42);
+  /* Faint enough to be felt rather than seen — they exist to give the glass
+     something to refract, not to tint the page blue. */
+  --nebula-1: oklch(0.5 0.19 255 / 0.2); /* cobalt   */
+  --nebula-2: oklch(0.46 0.2 320 / 0.14); /* magenta  */
+  --nebula-3: oklch(0.55 0.15 190 / 0.1); /* teal     */
+  --star: oklch(0.99 0.005 250);
+
+  /* Lifted slightly: with less light behind them, panels need a touch more
+     of their own to stay legible. */
+  --glass-bg: rgb(255 255 255 / 0.07);
+  --glass-bg-strong: rgb(255 255 255 / 0.12);
+  --glass-border: rgb(255 255 255 / 0.14);
+  --glass-shine: rgb(255 255 255 / 0.45);
   --glass-shadow:
-    0 12px 40px -12px rgb(0 0 0 / 0.7), 0 2px 10px -4px rgb(0 0 0 / 0.45);
+    0 12px 40px -12px rgb(0 0 0 / 0.8), 0 2px 10px -4px rgb(0 0 0 / 0.5);
   --glass-blur: 26px;
 }
 

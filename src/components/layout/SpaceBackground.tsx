@@ -38,7 +38,7 @@ export function SpaceBackground() {
 
       {/* Vignette — pushes the corners back so foreground glass sits forward.
           Barely there in daylight; heavy in the dark, where it makes depth. */}
-      <div className="absolute inset-0 bg-radial-[at_50%_35%] from-transparent to-black/[0.04] dark:to-black/65" />
+      <div className="absolute inset-0 bg-radial-[at_50%_35%] from-transparent to-black/[0.04] dark:to-black/40" />
     </div>
   );
 }
