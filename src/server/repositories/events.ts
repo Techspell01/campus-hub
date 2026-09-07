@@ -121,12 +121,6 @@ export const findEventBySlug = (slug: string, includeDrafts = false) =>
 export const findEventById = (id: string, includeDrafts = false) =>
   findEventBy(events.id, id, includeDrafts);
 
-/** The published event that drives the Hub hero, or the next one starting. */
-export async function findFlagshipEvent(): Promise<CollegeEvent | null> {
-  const upcoming = await listEvents({ upcomingOnly: true });
-  return upcoming.find((event) => event.isFlagship) ?? upcoming[0] ?? null;
-}
-
 export interface EventInput {
   slug: string;
   title: string;

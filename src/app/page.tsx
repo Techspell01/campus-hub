@@ -8,7 +8,6 @@ import { GlassButton } from "@/components/ui/GlassButton";
 import { getCurrentUser } from "@/server/auth/current-user";
 import { listActiveAnnouncements, listClubs } from "@/server/repositories/content";
 import {
-  findFlagshipEvent,
   listCoordinatorsForEvent,
   listEvents,
 } from "@/server/repositories/events";
@@ -72,19 +71,22 @@ function StatTile({
 export default async function HubPage() {
   const user = await getCurrentUser();
 
-  const [announcements, upcoming, clubs, flagship] = await Promise.all([
+  // One parallel round of independent queries. A separate flagship lookup used
+  // to sit in here too, but it just re-fetched the upcoming list — so the Hub
+  // pulled the whole event catalogue twice per load. Picking the flagship out
+  // of the list we already have costs nothing.
+  const [announcements, upcoming, clubs, tickets] = await Promise.all([
     listActiveAnnouncements(),
     listEvents({ upcomingOnly: true }),
     listClubs(),
-    findFlagshipEvent(),
+    user ? listTicketsForUser(user.id) : Promise.resolve([]),
   ]);
 
-  const [tickets, leads] = await Promise.all([
-    user ? listTicketsForUser(user.id) : Promise.resolve([]),
-    flagship
-      ? listCoordinatorsForEvent(flagship.id)
-      : Promise.resolve([]),
-  ]);
+  const flagship =
+    upcoming.find((event) => event.isFlagship) ?? upcoming[0] ?? null;
+
+  // Only this one has to wait, because it needs the flagship's id.
+  const leads = flagship ? await listCoordinatorsForEvent(flagship.id) : [];
 
   const registeredEventIds = new Set(tickets.map((ticket) => ticket.eventId));
 
