@@ -8,6 +8,65 @@ account you create becomes a coordinator so you can fill it in.
 
 ---
 
+## Tech stack
+
+A **single full-stack Next.js application** — there is no separate frontend and
+backend. Server and client code live in one codebase and deploy as one unit,
+divided by React Server Components rather than by a network API.
+
+### Frontend
+
+| | |
+| --- | --- |
+| React 19.2 | UI library |
+| Next.js 16.3 (App Router) | Framework, routing, rendering |
+| TypeScript 5 | Strict throughout |
+| Tailwind CSS 4 | Styling — CSS-first config, no `tailwind.config.js` |
+| Framer Motion 13 | Press feedback, tab indicator, list animation |
+| React `<ViewTransition>` | Route transitions via the browser View Transitions API |
+| Lucide React | Icons |
+| clsx + tailwind-merge | Conditional class composition |
+
+### Backend
+
+| | |
+| --- | --- |
+| Next.js Route Handlers | JSON endpoints — check-in, redeem, duty sessions, health |
+| Server Actions | Forms — auth, admin CRUD, registration, access requests |
+| React Server Components | Pages query the database directly, with no API round trip |
+| `node:crypto` | scrypt password hashing, HMAC ticket and duty signing, session tokens |
+
+No Express and no separate API server. Authentication is hand-rolled rather
+than a library — see [How it's put together](#how-its-put-together).
+
+### Database
+
+| | |
+| --- | --- |
+| PostgreSQL 18 | 9 tables, 6 enums |
+| Neon | Managed serverless Postgres, free tier |
+| Drizzle ORM 0.45 | Type-safe queries; the schema is the source of truth |
+| drizzle-kit | Generates versioned SQL migrations |
+| `@neondatabase/serverless` | HTTP driver — no connection pool to exhaust on serverless |
+| PGlite 0.5 | Postgres compiled to WebAssembly, for local development |
+
+That last one is why a fresh clone needs no database and no account: with
+`DATABASE_URL` unset the app runs against a real Postgres embedded in the
+process, using the same schema and the same migrations as production.
+
+### Feature libraries
+
+**qrcode** generates ticket and duty QR codes · **jsqr** decodes camera frames,
+with the browser's native `BarcodeDetector` used where available · **sharp**
+renders the app icons at build time.
+
+### Infrastructure
+
+Hosted on **Vercel**, deployed from **GitHub** on every push to `main`.
+Migrations are run deliberately and never automatically on deploy.
+
+---
+
 ## Run it locally
 
 ```bash
@@ -124,6 +183,7 @@ is fine. Selling tickets for money through it is not.
 | `npm run db:generate` | Turn schema changes into SQL in `drizzle/` |
 | `npm run db:migrate` | Apply migrations (local, or remote via `DATABASE_URL`) |
 | `npm run db:studio` | Browse the database in a GUI |
+| `npm run icons` | Re-render the app icons and favicons from `scripts/` |
 
 ---
 
