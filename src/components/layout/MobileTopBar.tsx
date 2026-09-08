@@ -16,8 +16,8 @@ export function MobileTopBar({ user }: { user: User | null }) {
     >
       <div className="glass-strong glass-shine relative flex items-center gap-3 rounded-glass px-3 py-2.5">
         <Link href="/" className="flex min-w-0 items-center gap-2.5">
-          <div className="grid size-9 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-amber-300 via-amber-500 to-orange-600 shadow-md shadow-amber-500/30 ring-1 ring-white/25">
-            <Sparkles size={16} strokeWidth={2.4} className="text-white" />
+          <div className="grid size-9 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-white via-neutral-100 to-neutral-300 shadow-md shadow-black/50 ring-1 ring-white/25">
+            <Sparkles size={16} strokeWidth={2.4} className="text-neutral-900" />
           </div>
           <span className="truncate text-[15px] font-semibold text-ink">
             Campus Hub

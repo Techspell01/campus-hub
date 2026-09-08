@@ -49,7 +49,7 @@ export function BottomNav() {
                   "relative flex flex-col items-center gap-1 rounded-2xl px-1 py-2",
                   "transition-colors duration-200",
                   active
-                    ? "text-amber-700 dark:text-amber-300"
+                    ? "text-neutral-900 dark:text-white"
                     : "text-ink-faint",
                 )}
               >

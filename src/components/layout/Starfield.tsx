@@ -25,12 +25,12 @@ interface Star {
  * occasional accents rather than confetti.
  */
 const PALETTE = [
-  "#e8e9ec", // neutral white
-  "#f7f6f4", // white
+  "#c9c9c9", // dim grey
+  "#e4e4e4", // grey-white
+  "#f4f4f4", // near-white
   "#ffffff", // white
-  "#fff7ec", // warm white
-  "#ffedd0", // yellow
-  "#ffd6ab", // orange
+  "#ffffff", // white
+  "#eaeaea", // grey-white
 ];
 
 const COLOUR_WEIGHTS = [0.12, 0.26, 0.3, 0.18, 0.1, 0.04];

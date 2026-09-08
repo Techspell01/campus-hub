@@ -16,7 +16,7 @@ import { cn } from "@/lib/utils";
 const FIELD =
   "w-full rounded-2xl border border-white/25 bg-white/45 px-3.5 py-2.5 text-[14px] " +
   "text-ink outline-none transition-colors placeholder:text-ink-faint " +
-  "focus:border-amber-400/60 dark:border-white/12 dark:bg-white/[0.07]";
+  "focus:border-white/45 dark:border-white/12 dark:bg-white/[0.07]";
 
 interface CheckedIn {
   checkIn: DutyCheckIn;

@@ -75,8 +75,8 @@ export default async function AdminPeoplePage() {
                     "grid size-10 shrink-0 place-items-center rounded-2xl bg-gradient-to-br",
                     "text-[13px] font-semibold text-white ring-1 ring-white/25",
                     isCoordinator
-                      ? "from-amber-300 to-orange-600"
-                      : "from-slate-400 to-slate-500",
+                      ? "from-white to-neutral-300 !text-neutral-900"
+                      : "from-neutral-600 to-neutral-700",
                   )}
                   aria-hidden
                 >

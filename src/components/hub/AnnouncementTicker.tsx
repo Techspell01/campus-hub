@@ -29,7 +29,7 @@ export function AnnouncementTicker({ items }: { items: Announcement[] }) {
       aria-label="College announcements"
       className="glass glass-shine group relative isolate flex items-stretch overflow-hidden rounded-glass"
     >
-      <div className="relative z-10 flex shrink-0 items-center gap-2 bg-gradient-to-r from-rose-500 to-orange-500 px-3.5 py-3 text-white sm:px-4">
+      <div className="relative z-10 flex shrink-0 items-center gap-2 bg-gradient-to-r from-rose-500 to-rose-700 px-3.5 py-3 text-white sm:px-4">
         <Megaphone size={15} strokeWidth={2.4} aria-hidden />
         <span className="text-[11px] font-semibold tracking-[0.1em] uppercase">
           Live

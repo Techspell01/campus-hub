@@ -77,7 +77,7 @@ export default async function AdminOverviewPage() {
             </p>
             <p className="mt-1.5 text-[13px] text-ink-muted">{card.label}</p>
             {card.hint && (
-              <p className="mt-1 text-[11.5px] font-medium text-amber-700 dark:text-amber-300">
+              <p className="mt-1 text-[11.5px] font-medium text-ink">
                 {card.hint}
               </p>
             )}

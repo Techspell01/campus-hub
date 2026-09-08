@@ -139,7 +139,7 @@ export function SessionQr({
                 strokeDashoffset={RING_CIRCUMFERENCE * (1 - fraction)}
                 className={cn(
                   "transition-[stroke-dashoffset] duration-200 ease-linear",
-                  secondsLeft <= 5 ? "stroke-amber-500" : "stroke-amber-400",
+                  secondsLeft <= 5 ? "stroke-amber-500" : "stroke-white/80",
                 )}
               />
             </svg>

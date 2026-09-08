@@ -28,8 +28,8 @@ export function Sidebar({ user }: { user: User | null }) {
           href="/"
           className="flex items-center gap-3 rounded-2xl p-2 transition-opacity hover:opacity-80"
         >
-          <div className="grid size-10 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-amber-300 via-amber-500 to-orange-600 shadow-lg shadow-amber-500/30 ring-1 ring-white/25">
-            <Sparkles size={18} strokeWidth={2.3} className="text-white" />
+          <div className="grid size-10 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-white via-neutral-100 to-neutral-300 shadow-lg shadow-black/50 ring-1 ring-white/25">
+            <Sparkles size={18} strokeWidth={2.3} className="text-neutral-900" />
           </div>
           <div className="min-w-0">
             <p className="text-[15px] leading-tight font-semibold text-ink">
@@ -84,7 +84,7 @@ export function Sidebar({ user }: { user: User | null }) {
                     strokeWidth={active ? 2.4 : 2}
                     className={cn(
                       "shrink-0 transition-colors",
-                      active && "text-amber-700 dark:text-amber-300",
+                      active && "text-neutral-900 dark:text-white",
                     )}
                     aria-hidden
                   />

@@ -45,7 +45,7 @@ function StatTile({
       {wide && (
         <div
           aria-hidden
-          className="pointer-events-none absolute -top-14 -right-10 -z-10 size-36 rounded-full bg-gradient-to-br from-amber-300 to-orange-600 opacity-25 blur-2xl"
+          className="pointer-events-none absolute -top-14 -right-10 -z-10 size-36 rounded-full bg-gradient-to-br from-white to-neutral-300 opacity-25 blur-2xl"
         />
       )}
 
@@ -101,11 +101,11 @@ export default async function HubPage() {
       <div className="glass glass-shine relative isolate overflow-hidden rounded-glass-lg p-8 text-center sm:p-12">
         <div
           aria-hidden
-          className="pointer-events-none absolute -top-24 -right-20 -z-10 size-72 rounded-full bg-gradient-to-br from-amber-300 to-orange-600 opacity-25 blur-3xl"
+          className="pointer-events-none absolute -top-24 -right-20 -z-10 size-72 rounded-full bg-gradient-to-br from-white to-neutral-300 opacity-25 blur-3xl"
         />
 
-        <div className="mx-auto grid size-14 place-items-center rounded-3xl bg-gradient-to-br from-amber-300 via-amber-500 to-orange-600 shadow-lg shadow-amber-500/30 ring-1 ring-white/25">
-          <Sparkles size={26} strokeWidth={2.2} className="text-white" aria-hidden />
+        <div className="mx-auto grid size-14 place-items-center rounded-3xl bg-gradient-to-br from-white via-neutral-100 to-neutral-300 shadow-lg shadow-black/50 ring-1 ring-white/25">
+          <Sparkles size={26} strokeWidth={2.2} className="text-neutral-900" aria-hidden />
         </div>
 
         <h1 className="mt-5 text-3xl font-semibold tracking-[-0.03em] text-ink">
