@@ -10,7 +10,7 @@ import type { AuthFormState } from "@/server/auth/actions";
 const FIELD =
   "w-full rounded-2xl border border-white/25 bg-white/45 px-3.5 py-2.5 text-[14px] " +
   "text-ink outline-none transition-colors placeholder:text-ink-faint " +
-  "focus:border-sky-400/60 dark:border-white/12 dark:bg-white/[0.07]";
+  "focus:border-amber-400/60 dark:border-white/12 dark:bg-white/[0.07]";
 
 const LABEL =
   "mb-1.5 block text-[11px] font-semibold tracking-[0.08em] text-ink-faint uppercase";
@@ -38,7 +38,7 @@ export function AuthForm({
     >
       <div
         aria-hidden
-        className="pointer-events-none absolute -top-24 -right-20 -z-10 size-64 rounded-full bg-gradient-to-br from-sky-400 to-indigo-600 opacity-25 blur-3xl"
+        className="pointer-events-none absolute -top-24 -right-20 -z-10 size-64 rounded-full bg-gradient-to-br from-amber-300 to-orange-600 opacity-25 blur-3xl"
       />
 
       <h1 className="text-2xl font-semibold tracking-[-0.03em] text-ink">
@@ -134,7 +134,7 @@ export function AuthForm({
         {isSignUp ? "Already have an account? " : "New here? "}
         <Link
           href={isSignUp ? "/sign-in" : "/sign-up"}
-          className="font-medium text-blue-600 underline-offset-4 hover:underline dark:text-sky-300"
+          className="font-medium text-amber-700 underline-offset-4 hover:underline dark:text-amber-300"
         >
           {isSignUp ? "Sign in" : "Create an account"}
         </Link>

@@ -74,14 +74,18 @@ export async function listEvents(
   if (!options.includeDrafts) filters.push(eq(events.published, true));
   if (options.upcomingOnly) filters.push(gte(events.endsAt, new Date()));
 
-  const rows = await db
-    .select({ event: events, clubName: clubs.name })
-    .from(events)
-    .leftJoin(clubs, eq(clubs.id, events.clubId))
-    .where(filters.length ? and(...filters) : undefined)
-    .orderBy(asc(events.startsAt));
-
-  const issued = await issuedCounts();
+  // Independent of each other, so they go in one round trip rather than two.
+  // With the database in a different region from the server, a needless
+  // sequential await is pure added latency.
+  const [rows, issued] = await Promise.all([
+    db
+      .select({ event: events, clubName: clubs.name })
+      .from(events)
+      .leftJoin(clubs, eq(clubs.id, events.clubId))
+      .where(filters.length ? and(...filters) : undefined)
+      .orderBy(asc(events.startsAt)),
+    issuedCounts(),
+  ]);
 
   return rows.map((row) =>
     toEvent(row.event, row.clubName, issued.get(row.event.id) ?? 0),

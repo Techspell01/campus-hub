@@ -62,10 +62,10 @@
 .dark {
   color-scheme: dark;
 
-  --page: oklch(0.07 0.006 265);
-  --ink: oklch(0.97 0.004 260);
-  --ink-muted: oklch(0.74 0.014 260);
-  --ink-faint: oklch(0.56 0.016 260);
+  --page: oklch(0.055 0.002 70);
+  --ink: oklch(0.97 0.002 80);
+  --ink-muted: oklch(0.73 0.004 75);
+  --ink-faint: oklch(0.55 0.005 70);
 
   /* Warm amber — the colour of a stage lamp, against a cold sky. Reserved
      for emphasis; a saturated blue-to-purple gradient is the single most
@@ -78,19 +78,21 @@
   --prominent: oklch(0.95 0.02 85);
   --prominent-ink: oklch(0.18 0.02 60);
 
-  /* Near-black, and cooler than neutral the way a real night sky is. */
-  --void: oklch(0.055 0.008 262);
+  /* Black. The trace of warm chroma is the minimum the frost needs to have
+     something to sample — on literal #000 every glass panel flattens to grey. */
+  --void: oklch(0.04 0.002 70);
 
-  /* Dust, not neon. Real nebulosity is desaturated and uneven; saturated
-     circular glows are what made this look synthetic. */
-  --nebula-1: oklch(0.42 0.075 268 / 0.34); /* cold indigo dust */
-  --nebula-2: oklch(0.4 0.055 34 / 0.2); /* faint rust       */
-  --nebula-3: oklch(0.44 0.045 196 / 0.16); /* airglow teal     */
-  --star: oklch(0.99 0.005 250);
+  /* Haze rather than nebula. What you actually see over a town at night is
+     warm light spilling into the dark, not coloured gas — and any hint of
+     blue here was reading as a synthetic gradient. */
+  --nebula-1: oklch(0.32 0.012 65 / 0.34); /* warm charcoal   */
+  --nebula-2: oklch(0.44 0.045 62 / 0.15); /* distant amber   */
+  --nebula-3: oklch(0.3 0.008 45 / 0.12); /* neutral dust    */
+  --star: oklch(0.99 0.003 80);
 
-  /* The galactic band. Barely above the void — it should be noticed only
-     once you look for it, the way it is on a real clear night. */
-  --band: oklch(0.75 0.02 255 / 0.05);
+  /* The galactic band, barely above the void — noticed only once you look
+     for it, the way it is on a real clear night. */
+  --band: oklch(0.8 0.006 75 / 0.045);
 
   /* Lifted slightly: with less light behind them, panels need a touch more
      of their own to stay legible. */

@@ -16,7 +16,7 @@ import { cn } from "@/lib/utils";
 const FIELD =
   "w-full rounded-2xl border border-white/25 bg-white/45 px-3.5 py-2.5 text-[14px] " +
   "text-ink outline-none transition-colors placeholder:text-ink-faint " +
-  "focus:border-sky-400/60 dark:border-white/12 dark:bg-white/[0.07]";
+  "focus:border-amber-400/60 dark:border-white/12 dark:bg-white/[0.07]";
 
 interface CheckedIn {
   checkIn: DutyCheckIn;
@@ -49,7 +49,7 @@ function OutcomeCard({
       : outcome.kind === "duplicate"
         ? {
             Icon: Info,
-            tone: "from-sky-500 to-indigo-600",
+            tone: "from-stone-500 to-stone-700",
             title: "Already checked in",
             body: `You scanned in at ${formatTime(outcome.checkIn.checkedInAt)}. Nothing more to do.`,
           }

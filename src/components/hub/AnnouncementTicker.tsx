@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 
 const LEVEL_DOT: Record<AnnouncementLevel, string> = {
   urgent: "bg-rose-500",
-  info: "bg-sky-500",
+  info: "bg-stone-300",
   success: "bg-emerald-500",
 };
 

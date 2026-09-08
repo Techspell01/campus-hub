@@ -58,7 +58,7 @@ const checked = (form: FormData, key: string) => form.get(key) === "on";
 
 const accentOf = (form: FormData): AccentKey => {
   const value = text(form, "accent") as AccentKey;
-  return ACCENT_KEYS.includes(value) ? value : "violet";
+  return ACCENT_KEYS.includes(value) ? value : "amber";
 };
 
 /** "Aurora Fest 2026" -> "aurora-fest-2026" */

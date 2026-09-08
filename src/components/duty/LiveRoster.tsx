@@ -136,7 +136,7 @@ export function LiveRoster({
         aria-label="Volunteers checked in"
       >
         <motion.div
-          className="h-full rounded-pill bg-gradient-to-r from-sky-400 to-indigo-600"
+          className="h-full rounded-pill bg-gradient-to-r from-amber-300 to-orange-600"
           animate={{ width: `${percent}%` }}
           transition={surfaceSpring}
         />

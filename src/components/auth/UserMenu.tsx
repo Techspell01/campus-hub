@@ -44,7 +44,7 @@ export function UserMenu({
     <span
       className={cn(
         "grid shrink-0 place-items-center rounded-xl bg-gradient-to-br",
-        "from-sky-400 to-indigo-600 font-semibold text-white ring-1 ring-white/25",
+        "from-amber-300 to-orange-600 font-semibold text-white ring-1 ring-white/25",
         variant === "compact" ? "size-10 text-[12px]" : "size-9 text-[12px]",
       )}
       aria-hidden

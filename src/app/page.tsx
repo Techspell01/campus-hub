@@ -45,7 +45,7 @@ function StatTile({
       {wide && (
         <div
           aria-hidden
-          className="pointer-events-none absolute -top-14 -right-10 -z-10 size-36 rounded-full bg-gradient-to-br from-sky-400 to-indigo-600 opacity-25 blur-2xl"
+          className="pointer-events-none absolute -top-14 -right-10 -z-10 size-36 rounded-full bg-gradient-to-br from-amber-300 to-orange-600 opacity-25 blur-2xl"
         />
       )}
 
@@ -101,10 +101,10 @@ export default async function HubPage() {
       <div className="glass glass-shine relative isolate overflow-hidden rounded-glass-lg p-8 text-center sm:p-12">
         <div
           aria-hidden
-          className="pointer-events-none absolute -top-24 -right-20 -z-10 size-72 rounded-full bg-gradient-to-br from-sky-400 to-indigo-600 opacity-25 blur-3xl"
+          className="pointer-events-none absolute -top-24 -right-20 -z-10 size-72 rounded-full bg-gradient-to-br from-amber-300 to-orange-600 opacity-25 blur-3xl"
         />
 
-        <div className="mx-auto grid size-14 place-items-center rounded-3xl bg-gradient-to-br from-sky-400 via-blue-500 to-indigo-600 shadow-lg shadow-blue-500/35 ring-1 ring-white/25">
+        <div className="mx-auto grid size-14 place-items-center rounded-3xl bg-gradient-to-br from-amber-300 via-amber-500 to-orange-600 shadow-lg shadow-amber-500/30 ring-1 ring-white/25">
           <Sparkles size={26} strokeWidth={2.2} className="text-white" aria-hidden />
         </div>
 

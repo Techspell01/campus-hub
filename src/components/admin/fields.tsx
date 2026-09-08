@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 export const FIELD =
   "w-full rounded-2xl border border-white/25 bg-white/45 px-3.5 py-2.5 text-[14px] " +
   "text-ink outline-none transition-colors placeholder:text-ink-faint " +
-  "focus:border-sky-400/60 dark:border-white/12 dark:bg-white/[0.07]";
+  "focus:border-amber-400/60 dark:border-white/12 dark:bg-white/[0.07]";
 
 const LABEL =
   "mb-1.5 block text-[11px] font-semibold tracking-[0.08em] text-ink-faint uppercase";
@@ -104,7 +104,7 @@ export function AccentField({ defaultValue }: { defaultValue?: string }) {
     <SelectField
       label="Colour"
       name="accent"
-      defaultValue={defaultValue ?? "violet"}
+      defaultValue={defaultValue ?? "amber"}
       options={ACCENT_KEYS.map((key) => ({
         value: key,
         label: key[0].toUpperCase() + key.slice(1),
@@ -130,7 +130,7 @@ export function CheckField({
         type="checkbox"
         name={name}
         defaultChecked={defaultChecked}
-        className="mt-0.5 size-4 accent-sky-500"
+        className="mt-0.5 size-4 accent-amber-500"
       />
       <span className="min-w-0">
         <span className="block text-[13.5px] font-medium text-ink">{label}</span>
