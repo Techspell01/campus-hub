@@ -27,7 +27,8 @@ export type GlassButtonSize = "sm" | "md" | "lg" | "icon";
  */
 const VARIANTS: Record<GlassButtonVariant, string> = {
   glass: "glass-control glass-shine text-ink",
-  primary: "glass-accent glass-shine text-white",
+  // Ink colour comes from `glass-accent`, which knows the fill it painted.
+  primary: "glass-accent glass-shine",
   // WhatsApp brand green, kept recognisable but let through the same frost.
   whatsapp:
     "glass-shine text-white border border-white/25 backdrop-blur-xl " +

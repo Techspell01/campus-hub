@@ -39,6 +39,8 @@ export function SpaceBackground() {
         style={{ animationDelay: "-16s", animationDuration: "27s" }}
       />
 
+      <div className="milky-way absolute inset-0" />
+
       <Starfield />
 
       {/* Vignette — pushes the corners back so foreground glass sits forward.

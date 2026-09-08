@@ -18,16 +18,23 @@
   --ink-muted: oklch(0.47 0.02 250);
   --ink-faint: oklch(0.62 0.018 250);
 
-  --accent: oklch(0.5 0.17 243);
+  /* Warm amber, not the default electric blue. Used for emphasis — active
+     nav, links, focus, glows — never as a large fill. */
+  --accent: oklch(0.56 0.13 62);
   --accent-ink: oklch(0.99 0 0);
-  --accent-warm: oklch(0.62 0.16 45);
+
+  /* The prominent button. Ink on light, so it reads as weight rather than
+     colour — the way a well-made dark interface handles a primary action. */
+  --prominent: oklch(0.24 0.02 60);
+  --prominent-ink: oklch(0.98 0.01 85);
 
   /* Daylight sky: the same composition, none of the space. */
   --void: oklch(0.965 0.008 240);
-  --nebula-1: oklch(0.86 0.09 235 / 0.55);
-  --nebula-2: oklch(0.88 0.08 300 / 0.4);
-  --nebula-3: oklch(0.9 0.08 45 / 0.35);
+  --nebula-1: oklch(0.87 0.05 250 / 0.5);
+  --nebula-2: oklch(0.89 0.05 40 / 0.35);
+  --nebula-3: oklch(0.9 0.04 200 / 0.3);
   --star: oklch(0.45 0.03 250);
+  --band: transparent;
 
   --glass-bg: rgb(255 255 255 / 0.62);
   --glass-bg-strong: rgb(255 255 255 / 0.8);
@@ -60,21 +67,30 @@
   --ink-muted: oklch(0.74 0.014 260);
   --ink-faint: oklch(0.56 0.016 260);
 
-  /* Electric blue over warm gold — deliberately not the default violet. */
-  --accent: oklch(0.74 0.16 225);
-  --accent-ink: oklch(0.16 0.03 250);
-  --accent-warm: oklch(0.82 0.15 65);
+  /* Warm amber — the colour of a stage lamp, against a cold sky. Reserved
+     for emphasis; a saturated blue-to-purple gradient is the single most
+     recognisable "generated app" tell. */
+  --accent: oklch(0.79 0.12 72);
+  --accent-ink: oklch(0.18 0.02 60);
 
-  /* Near-black. Not #000: a trace of chroma keeps the frost from turning
-     grey, but at this lightness the eye reads it as black. */
-  --void: oklch(0.05 0.005 265);
+  /* The prominent button is warm white with dark ink, not a coloured
+     gradient. Restraint is what makes an interface look considered. */
+  --prominent: oklch(0.95 0.02 85);
+  --prominent-ink: oklch(0.18 0.02 60);
 
-  /* Faint enough to be felt rather than seen — they exist to give the glass
-     something to refract, not to tint the page blue. */
-  --nebula-1: oklch(0.5 0.19 255 / 0.2); /* cobalt   */
-  --nebula-2: oklch(0.46 0.2 320 / 0.14); /* magenta  */
-  --nebula-3: oklch(0.55 0.15 190 / 0.1); /* teal     */
+  /* Near-black, and cooler than neutral the way a real night sky is. */
+  --void: oklch(0.055 0.008 262);
+
+  /* Dust, not neon. Real nebulosity is desaturated and uneven; saturated
+     circular glows are what made this look synthetic. */
+  --nebula-1: oklch(0.42 0.075 268 / 0.34); /* cold indigo dust */
+  --nebula-2: oklch(0.4 0.055 34 / 0.2); /* faint rust       */
+  --nebula-3: oklch(0.44 0.045 196 / 0.16); /* airglow teal     */
   --star: oklch(0.99 0.005 250);
+
+  /* The galactic band. Barely above the void — it should be noticed only
+     once you look for it, the way it is on a real clear night. */
+  --band: oklch(0.75 0.02 255 / 0.05);
 
   /* Lifted slightly: with less light behind them, panels need a touch more
      of their own to stay legible. */
@@ -258,26 +274,61 @@
  * A radial gradient with a soft falloff looks the same and costs nothing —
  * gradients are rasterised once, filters are recomputed continuously.
  */
-@utility nebula-a {
-  background-image: radial-gradient(
-    circle at 50% 50%,
-    var(--nebula-1) 0%,
-    transparent 66%
+/* A faint brightening along the same diagonal the stars crowd towards, so the
+ * band reads as depth rather than as an accident of scattering. */
+@utility milky-way {
+  background-image: linear-gradient(
+    to top right,
+    transparent 26%,
+    var(--band) 44%,
+    var(--band) 56%,
+    transparent 74%
   );
+}
+
+/* Each nebula is two overlapping ellipses of different proportions, offset
+ * from one another. A single circular gradient falls off evenly in every
+ * direction, which nothing in a real sky does — the overlap breaks the
+ * symmetry and gives it a direction, so it reads as drifting dust rather than
+ * as a lens flare. */
+@utility nebula-a {
+  background-image:
+    radial-gradient(
+      ellipse 62% 38% at 38% 42%,
+      var(--nebula-1) 0%,
+      transparent 62%
+    ),
+    radial-gradient(
+      ellipse 34% 58% at 61% 58%,
+      var(--nebula-1) 0%,
+      transparent 58%
+    );
 }
 @utility nebula-b {
-  background-image: radial-gradient(
-    circle at 50% 50%,
-    var(--nebula-2) 0%,
-    transparent 64%
-  );
+  background-image:
+    radial-gradient(
+      ellipse 55% 40% at 58% 44%,
+      var(--nebula-2) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 30% 50% at 40% 62%,
+      var(--nebula-2) 0%,
+      transparent 55%
+    );
 }
 @utility nebula-c {
-  background-image: radial-gradient(
-    circle at 50% 50%,
-    var(--nebula-3) 0%,
-    transparent 62%
-  );
+  background-image:
+    radial-gradient(
+      ellipse 48% 30% at 45% 50%,
+      var(--nebula-3) 0%,
+      transparent 58%
+    ),
+    radial-gradient(
+      ellipse 26% 44% at 58% 42%,
+      var(--nebula-3) 0%,
+      transparent 54%
+    );
 }
 
 /* Control-grade glass.
@@ -300,18 +351,19 @@
 /* The same treatment, tinted with the accent — a filled action that is still
  * genuinely translucent, the way iOS renders a prominent button. */
 @utility glass-accent {
+  color: var(--prominent-ink);
   background-image: linear-gradient(
     160deg,
-    color-mix(in oklch, var(--accent) var(--accent-fill-top), transparent),
-    color-mix(in oklch, var(--accent) var(--accent-fill-bottom), transparent)
+    color-mix(in oklch, var(--prominent) var(--accent-fill-top), transparent),
+    color-mix(in oklch, var(--prominent) var(--accent-fill-bottom), transparent)
   );
-  border: 1px solid color-mix(in oklch, var(--accent) 55%, white 20%);
+  border: 1px solid color-mix(in oklch, var(--prominent) 60%, transparent);
   backdrop-filter: blur(20px) saturate(190%);
   -webkit-backdrop-filter: blur(20px) saturate(190%);
   box-shadow:
-    inset 0 1px 0 0 rgb(255 255 255 / 0.35),
-    inset 0 -1px 0 0 rgb(0 0 0 / 0.2),
-    0 8px 26px -8px color-mix(in oklch, var(--accent) 60%, transparent);
+    inset 0 1px 0 0 rgb(255 255 255 / 0.45),
+    inset 0 -1px 0 0 rgb(0 0 0 / 0.12),
+    0 8px 26px -10px rgb(0 0 0 / 0.6);
 }
 
 /* Accent glow for the one element on a screen that should pull the eye. */

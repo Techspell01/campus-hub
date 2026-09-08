@@ -12,7 +12,43 @@ interface Star {
   /** Phase offset so stars don't all twinkle in unison. */
   phase: number;
   twinkle: number;
+  /** Index into PALETTE. Stars are sorted by it so fillStyle rarely changes. */
+  colour: number;
 }
+
+/**
+ * Stars by surface temperature, hot to cool.
+ *
+ * A sky of identical white dots is the clearest sign of a synthetic
+ * starfield. Real stars run from blue-white through white and yellow to
+ * orange, weighted heavily to the pale end — so the warm ones read as
+ * occasional accents rather than confetti.
+ */
+const PALETTE = [
+  "#cbd8ff", // B — blue-white
+  "#eef2ff", // A — white
+  "#ffffff", // A/F
+  "#fff6e9", // F/G — yellow-white
+  "#ffe7c2", // K — yellow
+  "#ffcba4", // K/M — orange
+];
+
+const COLOUR_WEIGHTS = [0.12, 0.26, 0.3, 0.18, 0.1, 0.04];
+
+function pickColour() {
+  let roll = Math.random();
+  for (let i = 0; i < COLOUR_WEIGHTS.length; i += 1) {
+    roll -= COLOUR_WEIGHTS[i];
+    if (roll <= 0) return i;
+  }
+  return 2;
+}
+
+/** Sum of two uniforms — a cheap bell curve, so the band has soft edges. */
+const gaussianish = () => Math.random() + Math.random() - 1;
+
+/** Share of stars pulled towards the galactic band rather than scattered. */
+const BAND_SHARE = 0.45;
 
 /** Stars per million square pixels — keeps density even on any screen. */
 const DENSITY = 90;
@@ -58,14 +94,6 @@ export function Starfield() {
     let lastTime = performance.now();
     let running = true;
 
-    /** Reads the star colour from CSS, so it flips with the theme. */
-    const starColour = () =>
-      getComputedStyle(document.documentElement)
-        .getPropertyValue("--star")
-        .trim() || "#fff";
-
-    let colour = starColour();
-
     function build() {
       width = window.innerWidth;
       height = window.innerHeight;
@@ -90,16 +118,34 @@ export function Starfield() {
         // Cubed so most stars are small and faint, with a few bright ones —
         // an even spread reads as noise rather than a sky.
         const depth = Math.random() ** 3;
+
+        // Roughly half cluster along a diagonal, the way the Milky Way crowds
+        // one stripe of the real sky. A uniform scatter is what makes a
+        // generated starfield look like television static.
+        let x = Math.random() * width;
+        let y = Math.random() * height;
+
+        if (Math.random() < BAND_SHARE) {
+          const along = Math.random();
+          x = along * width;
+          y = height * (0.82 - along * 0.6) + gaussianish() * height * 0.17;
+        }
+
         return {
-          x: Math.random() * width,
-          y: Math.random() * height,
-          radius: 0.4 + depth * 1.6,
-          speed: 1.5 + depth * 7,
-          baseAlpha: 0.25 + depth * 0.6,
+          x,
+          y,
+          radius: 0.4 + depth * 1.7,
+          speed: 1.2 + depth * 6,
+          baseAlpha: 0.22 + depth * 0.62,
           phase: Math.random() * Math.PI * 2,
           twinkle: 0.4 + Math.random() * 0.8,
+          colour: pickColour(),
         };
       });
+
+      // Grouped by colour so fillStyle changes about six times a frame rather
+      // than once per star.
+      stars.sort((a, b) => a.colour - b.colour);
     }
 
     function draw(now: number) {
@@ -107,7 +153,8 @@ export function Starfield() {
       lastTime = now;
 
       context!.clearRect(0, 0, width, height);
-      context!.fillStyle = colour;
+
+      let activeColour = -1;
 
       for (const star of stars) {
         if (!reduceMotion) {
@@ -119,14 +166,27 @@ export function Starfield() {
           }
         }
 
+        if (star.colour !== activeColour) {
+          activeColour = star.colour;
+          context!.fillStyle = PALETTE[activeColour];
+        }
+
         const flicker = reduceMotion
           ? 1
           : 0.72 + 0.28 * Math.sin(now / 1000 + star.phase) * star.twinkle;
 
-        context!.globalAlpha = Math.max(
-          0,
-          Math.min(1, star.baseAlpha * flicker),
-        );
+        const alpha = Math.max(0, Math.min(1, star.baseAlpha * flicker));
+
+        // The brightest stars carry a faint halo. Real optics bloom, and it is
+        // most of what separates a bright star from a large dot.
+        if (star.radius > 1.4) {
+          context!.globalAlpha = alpha * 0.16;
+          context!.beginPath();
+          context!.arc(star.x, star.y, star.radius * 3.2, 0, Math.PI * 2);
+          context!.fill();
+        }
+
+        context!.globalAlpha = alpha;
 
         // Below ~1px a square and a circle are indistinguishable, and
         // `fillRect` skips the path machinery `arc` needs. Most stars are
@@ -165,16 +225,6 @@ export function Starfield() {
       }
     };
 
-    // The theme toggle swaps --star; pick the new value up without a reload.
-    const themeObserver = new MutationObserver(() => {
-      colour = starColour();
-      if (reduceMotion) draw(performance.now());
-    });
-    themeObserver.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["class"],
-    });
-
     window.addEventListener("resize", onResize);
     document.addEventListener("visibilitychange", onVisibility);
 
@@ -183,7 +233,6 @@ export function Starfield() {
       cancelAnimationFrame(frame);
       window.removeEventListener("resize", onResize);
       document.removeEventListener("visibilitychange", onVisibility);
-      themeObserver.disconnect();
     };
   }, []);
 
